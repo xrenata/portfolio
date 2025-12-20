@@ -43,12 +43,16 @@ export default function ProjectsPage() {
                                 </div>
 
                                 <div className="flex items-center gap-4 pt-2 text-sm font-medium">
-                                    <Link href={project.demoUrl} className="flex items-center hover:text-primary transition-colors">
-                                        Demo <Globe className="ml-1 h-3 w-3" />
-                                    </Link>
-                                    <Link href={project.repoUrl} className="flex items-center hover:text-primary transition-colors">
-                                        Source <Github className="ml-1 h-3 w-3" />
-                                    </Link>
+                                    {project.demoUrl && project.demoUrl !== "#" && (
+                                        <Link href={project.demoUrl} target="_blank" className="flex items-center hover:text-primary transition-colors">
+                                            Demo <Globe className="ml-1 h-3 w-3" />
+                                        </Link>
+                                    )}
+                                    {project.repoUrl && project.repoUrl !== "#" && (
+                                        <Link href={project.repoUrl} target="_blank" className="flex items-center hover:text-primary transition-colors">
+                                            Source <Github className="ml-1 h-3 w-3" />
+                                        </Link>
+                                    )}
                                 </div>
                             </div>
                         </FadeInItem>

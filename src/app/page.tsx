@@ -10,6 +10,8 @@ import { Badge } from "@/components/ui/badge"
 import { getAllPosts } from "@/lib/blog"
 import { SpotifyCard } from "@/components/SpotifyCard"
 
+import { WakatimeCard } from "@/components/WakatimeCard"
+
 export default function Home() {
   const latestPosts = getAllPosts().slice(0, 1)
 
@@ -27,8 +29,9 @@ export default function Home() {
 
 
 
-        <BlurFade delay={0.4} className="pt-2">
+        <BlurFade delay={0.4} className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
           <SpotifyCard />
+          <WakatimeCard />
         </BlurFade>
       </section>
 
