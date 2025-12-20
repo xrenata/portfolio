@@ -8,9 +8,10 @@ import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
 
 import { getAllPosts } from "@/lib/blog"
+import { SpotifyCard } from "@/components/SpotifyCard"
 
 export default function Home() {
-  const latestPosts = getAllPosts().slice(0, 3)
+  const latestPosts = getAllPosts().slice(0, 1)
 
   return (
     <div className="container max-w-2xl mx-auto py-24 space-y-20">
@@ -19,25 +20,22 @@ export default function Home() {
       <section className="space-y-6">
         <BlurFade delay={0.1} className="space-y-4">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-4xl">emirhan</h1>
-          <p className="text-xl text-muted-foreground leading-relaxed max-w-xl">
+          <p className="text-lg text-muted-foreground leading-relaxed max-w-xl">
             A full-stack developer who crafts <span className="text-foreground italic">minimalist</span>, accessible, and performance-obsessed digital experiences. An advocate for <span className="text-foreground underline underline-offset-4">clean code</span> and <span className="text-foreground underline underline-offset-4">modern design</span> principles.
           </p>
         </BlurFade>
 
-        <BlurFade delay={0.3} className="pt-4 flex gap-4">
-          <Link href="/projects" className={cn(buttonVariants({ variant: "default" }), "h-11 px-8 rounded-full")}>
-            View Work
-          </Link>
-          <Link href="/about" className={cn(buttonVariants({ variant: "outline" }), "h-11 px-8 rounded-full")}>
-            More About Me
-          </Link>
+
+
+        <BlurFade delay={0.4} className="pt-2">
+          <SpotifyCard />
         </BlurFade>
       </section>
 
       {/* Latest Blog Posts Section */}
       <section className="space-y-8">
         <BlurFade delay={0.4} className="flex items-center justify-between">
-          <h2 className="text-2xl font-semibold tracking-tight">Latest Posts</h2>
+          <h2 className="text-2xl font-semibold tracking-tight">Latest Post</h2>
         </BlurFade>
 
         <div className="space-y-6">
