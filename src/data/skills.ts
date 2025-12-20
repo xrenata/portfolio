@@ -17,6 +17,8 @@ export const skillCategories: SkillCategory[] = [
         skills: [
             { name: "React", icon: "react" },
             { name: "Next.js", icon: "nextjs" },
+            { name: "Kotlin", icon: "kotlin" },
+            {name: "Flutter", icon: "flutter"},
             { name: "TypeScript", icon: "ts" },
             { name: "Tailwind CSS", icon: "tailwind" },
             { name: "HTML5", icon: "html" },
@@ -29,6 +31,7 @@ export const skillCategories: SkillCategory[] = [
         description: "Designing scalable APIs and database architectures.",
         skills: [
             { name: "Node.js", icon: "nodejs" },
+            { name: "C#", icon: "cs" },
             { name: "Express", icon: "express" },
             { name: "Elysia", icon: "elysia" },
             { name: "PostgreSQL", icon: "postgres" },
@@ -47,9 +50,9 @@ export const skillCategories: SkillCategory[] = [
             { name: "Docker", icon: "docker" },
             { name: "AWS", icon: "aws" },
             { name: "Vercel", icon: "vercel" },
+            { name: "Netlify", icon: "netlify" },
             { name: "Figma", icon: "figma" },
             { name: "Postman", icon: "postman" },
-            { name: "Vite", icon: "vite" },
         ]
     },
 ]
