@@ -41,7 +41,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     }) || []
 
     return (
-        <div className="container max-w-7xl mx-auto py-24 px-4 md:px-8">
+        <div className="w-full max-w-7xl mx-auto py-12 md:py-24 px-6 md:px-8">
             <FadeIn>
                 {/* 3-Column Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
