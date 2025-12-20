@@ -11,7 +11,9 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 export function SpotifyCard() {
     const { data } = useSWR("/api/spotify", fetcher, {
-        refreshInterval: 5000,
+        refreshInterval: (latestData) => {
+            return latestData?.isPlaying ? 10000 : 30000
+        }
     })
 
     return (
