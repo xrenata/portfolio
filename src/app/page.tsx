@@ -14,7 +14,7 @@ export default function Home() {
   const latestPosts = getAllPosts().slice(0, 1)
 
   return (
-    <div className="w-full max-w-2xl mx-auto py-12 md:py-24 px-6 space-y-12 md:space-y-20">
+    <div className="w-full max-w-2xl mx-auto pb-12 md:pb-24 px-6 space-y-12 md:space-y-20">
 
       {/* Intro Section - Dictionary Style */}
       <section className="space-y-6">

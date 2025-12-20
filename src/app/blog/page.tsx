@@ -8,7 +8,7 @@ export default function BlogPage() {
     const posts = getAllPosts()
 
     return (
-        <div className="w-full max-w-2xl mx-auto py-12 md:py-24 px-6 space-y-12">
+        <div className="w-full max-w-2xl mx-auto pb-12 md:pb-24 px-6 space-y-12">
             <FadeInStagger>
                 <FadeInItem className="space-y-2 border-b border-border pb-8">
                     <h1 className="text-3xl font-bold tracking-tight">Blog</h1>
