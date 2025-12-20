@@ -7,7 +7,7 @@ import { FadeIn } from "@/components/ui/fade-in"
 
 export default function AboutPage() {
     return (
-        <div className="container max-w-2xl mx-auto py-24 space-y-12">
+        <div className="w-full max-w-2xl mx-auto py-12 md:py-24 px-6 space-y-12">
             {/* Bio Section */}
             <FadeIn>
                 <section className="space-y-6 max-w-3xl mx-auto text-center md:text-left">
