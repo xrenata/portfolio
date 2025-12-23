@@ -88,7 +88,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
                         <Separator className="my-8" />
 
-                        <div className="prose prose-invert prose-neutral max-w-none">
+                        <div className="prose dark:prose-invert prose-neutral max-w-none">
                             <ReactMarkdown
                                 components={MarkdownComponents}
                                 rehypePlugins={[]}

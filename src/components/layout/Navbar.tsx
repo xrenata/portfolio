@@ -5,16 +5,27 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
+import { useTheme } from "next-themes"
 
 import { routes } from "@/data/site"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet"
-import { Menu } from "lucide-react"
+import { Menu, Moon, Sun } from "lucide-react"
 import { useState } from "react"
 import { socialLinks } from "@/data/site"
 
 export function Navbar() {
     const pathname = usePathname()
     const [open, setOpen] = useState(false)
+    const { theme, setTheme } = useTheme()
+    const [mounted, setMounted] = React.useState(false)
+
+    React.useEffect(() => {
+        setMounted(true)
+    }, [])
+
+    if (!mounted) {
+        return null
+    }
 
     return (
         <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/40 supports-[backdrop-filter]:bg-background/60">
@@ -51,16 +62,39 @@ export function Navbar() {
                             </Link>
                         )
                     })}
+                    <button
+                        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                        className="p-2 rounded-md hover:bg-muted transition-colors"
+                        aria-label="Toggle theme"
+                    >
+                        {theme === "dark" ? (
+                            <Sun className="h-5 w-5 text-muted-foreground hover:text-foreground" />
+                        ) : (
+                            <Moon className="h-5 w-5 text-muted-foreground hover:text-foreground" />
+                        )}
+                    </button>
                 </nav>
 
                 {/* Mobile Nav */}
-                <Sheet open={open} onOpenChange={setOpen}>
-                    <SheetTrigger asChild>
-                        <button className="md:hidden p-2 -mr-2 text-foreground/80 hover:text-foreground transition-colors">
-                            <Menu className="h-5 w-5" />
-                            <span className="sr-only">Open menu</span>
-                        </button>
-                    </SheetTrigger>
+                <div className="md:hidden flex items-center gap-2">
+                    <button
+                        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                        className="p-2 rounded-md hover:bg-muted transition-colors"
+                        aria-label="Toggle theme"
+                    >
+                        {theme === "dark" ? (
+                            <Sun className="h-5 w-5 text-muted-foreground hover:text-foreground" />
+                        ) : (
+                            <Moon className="h-5 w-5 text-muted-foreground hover:text-foreground" />
+                        )}
+                    </button>
+                    <Sheet open={open} onOpenChange={setOpen}>
+                        <SheetTrigger asChild>
+                            <button className="p-2 -mr-2 text-foreground/80 hover:text-foreground transition-colors">
+                                <Menu className="h-5 w-5" />
+                                <span className="sr-only">Open menu</span>
+                            </button>
+                        </SheetTrigger>
                     <SheetContent side="right" className="w-[300px] sm:w-[400px] flex flex-col">
                         <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                         <SheetDescription className="sr-only">Main site navigation</SheetDescription>
@@ -120,6 +154,7 @@ export function Navbar() {
                         </div>
                     </SheetContent>
                 </Sheet>
+                </div>
             </div>
         </header>
     )
