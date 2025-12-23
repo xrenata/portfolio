@@ -3,8 +3,10 @@
 import * as React from "react"
 import { Check, Copy } from "lucide-react"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
-import { vscDarkPlus, atomDark } from "react-syntax-highlighter/dist/esm/styles/prism"
+import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism"
+import { vs } from "react-syntax-highlighter/dist/esm/styles/prism"
 import { Button } from "@/components/ui/button"
+import { useTheme } from "next-themes"
 
 interface CodeBlockProps {
     language: string
@@ -14,8 +16,15 @@ interface CodeBlockProps {
 
 export function CodeBlock({ language, value, filename }: CodeBlockProps) {
     const [isCopied, setIsCopied] = React.useState(false)
+    const { theme } = useTheme()
+    const [mounted, setMounted] = React.useState(false)
+
+    React.useEffect(() => {
+        setMounted(true)
+    }, [])
 
     const lang = language || "text"
+    const isDark = mounted ? theme === "dark" : true
 
     const copyToClipboard = async () => {
         try {
@@ -28,9 +37,17 @@ export function CodeBlock({ language, value, filename }: CodeBlockProps) {
     }
 
     return (
-        <div className="relative my-6 overflow-hidden rounded-xl border border-border bg-[#1e1e1e] shadow-md group [&_code]:before:content-none [&_code]:after:content-none">
+        <div className={`relative my-6 overflow-hidden rounded-xl border shadow-md group [&_code]:before:content-none [&_code]:after:content-none ${
+            isDark 
+                ? 'border-border bg-[#1e1e1e]' 
+                : 'border-gray-200 bg-gray-50'
+        }`}>
             {/* Window Controls / Header */}
-            <div className="flex items-center justify-between border-b border-white/10 bg-[#1e1e1e] px-4 py-3">
+            <div className={`flex items-center justify-between border-b px-4 py-3 ${
+                isDark 
+                    ? 'border-white/10 bg-[#1e1e1e]' 
+                    : 'border-gray-200 bg-white'
+            }`}>
                 <div className="flex items-center gap-3">
                     {/* Traffic Lights */}
                     <div className="flex gap-1.5 opacity-70 group-hover:opacity-100 transition-opacity">
@@ -40,7 +57,9 @@ export function CodeBlock({ language, value, filename }: CodeBlockProps) {
                     </div>
 
                     {/* Filename or Language Label */}
-                    <div className="ml-2 flex items-center gap-2 text-xs font-medium text-zinc-400">
+                    <div className={`ml-2 flex items-center gap-2 text-xs font-medium ${
+                        isDark ? 'text-zinc-400' : 'text-gray-600'
+                    }`}>
                         {filename ? (
                             <span>{filename}</span>
                         ) : (
@@ -52,7 +71,11 @@ export function CodeBlock({ language, value, filename }: CodeBlockProps) {
                 <Button
                     variant="ghost"
                     size="icon"
-                    className="h-6 w-6 text-zinc-500 hover:text-zinc-200 hover:bg-white/10 transition-all"
+                    className={`h-6 w-6 transition-all ${
+                        isDark 
+                            ? 'text-zinc-500 hover:text-zinc-200 hover:bg-white/10' 
+                            : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+                    }`}
                     onClick={copyToClipboard}
                     aria-label="Copy code"
                 >
@@ -68,7 +91,7 @@ export function CodeBlock({ language, value, filename }: CodeBlockProps) {
             <div className="relative">
                 <SyntaxHighlighter
                     language={lang}
-                    style={vscDarkPlus}
+                    style={isDark ? vscDarkPlus : vs}
                     customStyle={{
                         margin: 0,
                         padding: '1.25rem',
