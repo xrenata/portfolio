@@ -16,16 +16,14 @@ import { socialLinks } from "@/data/site"
 export function Navbar() {
     const pathname = usePathname()
     const [open, setOpen] = useState(false)
-    const { theme, setTheme } = useTheme()
+    const { theme, setTheme, resolvedTheme } = useTheme()
     const [mounted, setMounted] = React.useState(false)
 
     React.useEffect(() => {
         setMounted(true)
     }, [])
 
-    if (!mounted) {
-        return null
-    }
+    const currentTheme = mounted ? resolvedTheme : 'dark'
 
     return (
         <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/40 supports-[backdrop-filter]:bg-background/60">
@@ -63,11 +61,11 @@ export function Navbar() {
                         )
                     })}
                     <button
-                        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                        onClick={() => setTheme(currentTheme === "dark" ? "light" : "dark")}
                         className="p-2 rounded-md hover:bg-muted transition-colors"
                         aria-label="Toggle theme"
                     >
-                        {theme === "dark" ? (
+                        {currentTheme === "dark" ? (
                             <Sun className="h-5 w-5 text-muted-foreground hover:text-foreground" />
                         ) : (
                             <Moon className="h-5 w-5 text-muted-foreground hover:text-foreground" />
@@ -78,11 +76,11 @@ export function Navbar() {
                 {/* Mobile Nav */}
                 <div className="md:hidden flex items-center gap-2">
                     <button
-                        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                        onClick={() => setTheme(currentTheme === "dark" ? "light" : "dark")}
                         className="p-2 rounded-md hover:bg-muted transition-colors"
                         aria-label="Toggle theme"
                     >
-                        {theme === "dark" ? (
+                        {currentTheme === "dark" ? (
                             <Sun className="h-5 w-5 text-muted-foreground hover:text-foreground" />
                         ) : (
                             <Moon className="h-5 w-5 text-muted-foreground hover:text-foreground" />
