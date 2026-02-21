@@ -10,7 +10,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 export function WakatimeCard() {
     const { data } = useSWR("/api/wakatime", fetcher, {
-        refreshInterval: 600000 // 10 minutes
+        refreshInterval: 600000
     })
 
     return (
@@ -24,7 +24,7 @@ export function WakatimeCard() {
                     <p className="font-medium text-sm text-foreground">
                         {data?.data?.text || "Loading..."}
                     </p>
-                    <p className="text-xs text-muted-foreground">This Month Coding Time</p>
+                    <p className="text-xs text-muted-foreground">Wakatime</p>
                 </div>
             </div>
 
