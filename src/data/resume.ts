@@ -18,7 +18,7 @@ export const ABOUT = {
 export const WORK_EXPERIENCE: Experience[] = [
     {
         company: "Eupholias Developers",
-        role: "Full Stack Developer",
+        role: "Tech Lead",
         period: "2025 - Present",
         description: "Leading the frontend team in rebuilding the core product dashboard using Next.js and React Query.",
         tags: ["React", "TypeScript", "GraphQL", "Elysia", "Prisma", "PostgreSQL", "Redis", "MongoDB"]
@@ -34,7 +34,7 @@ export const WORK_EXPERIENCE: Experience[] = [
         company: "Nodesty",
         role: "Support Team",
         period: "2022 - Present",
-        description: "Leading the frontend team in rebuilding the core product dashboard using Next.js and React Query.",
+        description: "Providing technical support and resolving customer issues.",
         tags: ["React", "TypeScript", "GraphQL"]
     },
     {
