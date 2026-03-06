@@ -33,7 +33,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="w-full max-w-7xl mx-auto pb-24 px-6 md:px-10">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-                {/* ─── Left TOC ─── */}
                 <aside className="hidden lg:block lg:col-span-3">
                     <div className="sticky top-24 space-y-6">
                         <Link
@@ -65,9 +64,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     </div>
                 </aside>
 
-                {/* ─── Main content ─── */}
                 <main className="lg:col-span-6 min-w-0">
-                    {/* Mobile back link */}
                     <div className="lg:hidden mb-8">
                         <Link
                             href="/blog"
@@ -78,7 +75,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         </Link>
                     </div>
 
-                    {/* Post header */}
                     <div className="space-y-5 pb-10 border-b border-border/40">
                         <time dateTime={post.date} className="block font-mono text-xs text-muted-foreground/60">
                             {post.date}
@@ -98,7 +94,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         </div>
                     </div>
 
-                    {/* Article body */}
                     <div className="prose dark:prose-invert prose-neutral max-w-none pt-10">
                         <ReactMarkdown components={MarkdownComponents}>
                             {post.content}
@@ -106,7 +101,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     </div>
                 </main>
 
-                {/* ─── Right sidebar ─── */}
                 <aside className="hidden lg:block lg:col-span-3">
                     <div className="sticky top-24 space-y-8">
                         {allPosts.filter(p => p.slug !== post.slug).length > 0 && (

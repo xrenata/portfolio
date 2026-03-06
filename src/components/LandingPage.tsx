@@ -78,19 +78,13 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
 
     return (
         <div>
-            {/* ─── HERO ─── */}
             <section className="relative min-h-[calc(100svh-5rem)] flex flex-col items-center justify-center px-6 text-center">
-                {/* Grid — dark mode */}
                 <div className="absolute inset-x-0 -top-20 bottom-0 hidden dark:block bg-[linear-gradient(to_right,#ffffff14_1px,transparent_1px),linear-gradient(to_bottom,#ffffff14_1px,transparent_1px)] bg-[size:64px_64px]" />
-                {/* Grid — light mode */}
                 <div className="absolute inset-x-0 -top-20 bottom-0 block dark:hidden bg-[linear-gradient(to_right,#00000010_1px,transparent_1px),linear-gradient(to_bottom,#00000010_1px,transparent_1px)] bg-[size:64px_64px]" />
-                {/* Radial glow */}
                 <div className="absolute inset-x-0 -top-20 bottom-0 bg-[radial-gradient(ellipse_70%_40%_at_50%_10%,oklch(0.5_0_0/0.06),transparent)]" />
-                {/* Fade to background at bottom */}
                 <div className="absolute bottom-0 left-0 right-0 h-56 bg-gradient-to-t from-background to-transparent" />
 
                 <div className="relative z-10 space-y-8 max-w-5xl w-full">
-                    {/* Available badge */}
                     <motion.div
                         className="flex justify-center"
                         initial={{ opacity: 0, y: 16 }}
@@ -106,7 +100,6 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                         </div>
                     </motion.div>
 
-                    {/* Name */}
                     <motion.h1
                         className="text-[clamp(4.5rem,16vw,13rem)] font-black tracking-tighter leading-none"
                         initial={{ opacity: 0, y: 40 }}
@@ -116,7 +109,6 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                         emirhan
                     </motion.h1>
 
-                    {/* Role cycler */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -125,7 +117,6 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                         <RoleCycler />
                     </motion.div>
 
-                    {/* Social links */}
                     <motion.div
                         className="flex flex-wrap justify-center gap-2"
                         initial={{ opacity: 0, y: 10 }}
@@ -147,7 +138,6 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                     </motion.div>
                 </div>
 
-                {/* Scroll indicator */}
                 <motion.div
                     className="absolute bottom-8 flex flex-col items-center gap-2"
                     initial={{ opacity: 0 }}
@@ -163,7 +153,6 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                 </motion.div>
             </section>
 
-            {/* ─── STORY ─── */}
             <section ref={storyRef} className="relative" style={{ height: "260vh" }}>
                 <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden px-8">
                     <div className="relative w-full max-w-4xl text-center" style={{ height: "14rem" }}>
@@ -188,9 +177,7 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                 </div>
             </section>
 
-            {/* ─── CONTENT ─── */}
             <section className="w-full max-w-2xl mx-auto px-6 pb-28 space-y-24">
-                {/* Live activity */}
                 <motion.div
                     className="space-y-6"
                     initial={{ opacity: 0, y: 40 }}
@@ -208,7 +195,6 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                     </div>
                 </motion.div>
 
-                {/* Top Tracks */}
                 <motion.div
                     className="space-y-6"
                     initial={{ opacity: 0, y: 40 }}
@@ -223,7 +209,6 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                     <TopTracksSection />
                 </motion.div>
 
-                {/* Favorites */}
                 <motion.div
                     className="space-y-6"
                     initial={{ opacity: 0, y: 40 }}
@@ -238,7 +223,6 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                     <FavoritesSection />
                 </motion.div>
 
-                {/* Latest post */}
                 {latestPosts.length > 0 && (
                     <motion.div
                         className="space-y-6"

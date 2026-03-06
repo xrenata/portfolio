@@ -8,7 +8,6 @@ export default function AboutPage() {
     return (
         <div className="w-full max-w-2xl mx-auto pb-24 px-6">
 
-            {/* Header */}
             <FadeIn className="py-12 border-b border-border/40 space-y-3">
                 <h1 className="text-6xl font-black tracking-tighter leading-none">About</h1>
                 <p className="text-muted-foreground text-sm">
@@ -16,7 +15,6 @@ export default function AboutPage() {
                 </p>
             </FadeIn>
 
-            {/* Bio */}
             <FadeIn className="py-10 border-b border-border/40 space-y-4">
                 {ABOUT.paragraphs.map((paragraph, index) => (
                     <p key={index} className="text-muted-foreground leading-relaxed">
@@ -25,7 +23,6 @@ export default function AboutPage() {
                 ))}
             </FadeIn>
 
-            {/* Experience */}
             <FadeIn className="py-10 border-b border-border/40 space-y-8">
                 <div className="flex items-end gap-3">
                     <span className="text-xs font-mono text-muted-foreground/40 mb-1">01</span>
@@ -73,7 +70,6 @@ export default function AboutPage() {
                 </FadeInStagger>
             </FadeIn>
 
-            {/* Contact */}
             <FadeIn className="py-10 space-y-6">
                 <div className="flex items-end gap-3">
                     <span className="text-xs font-mono text-muted-foreground/40 mb-1">02</span>

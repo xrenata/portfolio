@@ -42,21 +42,18 @@ export function CodeBlock({ language, value, filename }: CodeBlockProps) {
                 ? 'border-border bg-[#1e1e1e]' 
                 : 'border-gray-200 bg-gray-50'
         }`}>
-            {/* Window Controls / Header */}
             <div className={`flex items-center justify-between border-b px-4 py-3 ${
                 isDark 
                     ? 'border-white/10 bg-[#1e1e1e]' 
                     : 'border-gray-200 bg-white'
             }`}>
                 <div className="flex items-center gap-3">
-                    {/* Traffic Lights */}
                     <div className="flex gap-1.5 opacity-70 group-hover:opacity-100 transition-opacity">
                         <div className="h-2.5 w-2.5 rounded-full bg-[#ff5f56]" />
                         <div className="h-2.5 w-2.5 rounded-full bg-[#ffbd2e]" />
                         <div className="h-2.5 w-2.5 rounded-full bg-[#27c93f]" />
                     </div>
 
-                    {/* Filename or Language Label */}
                     <div className={`ml-2 flex items-center gap-2 text-xs font-medium ${
                         isDark ? 'text-zinc-400' : 'text-gray-600'
                     }`}>
@@ -87,7 +84,6 @@ export function CodeBlock({ language, value, filename }: CodeBlockProps) {
                 </Button>
             </div>
 
-            {/* Code Content */}
             <div className="relative">
                 <SyntaxHighlighter
                     language={lang}

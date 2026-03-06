@@ -10,7 +10,6 @@ export default function ProjectsPage() {
     return (
         <div className="w-full max-w-2xl mx-auto pb-24 px-6">
 
-            {/* Header */}
             <motion.div
                 className="py-12 border-b border-border/40 space-y-3"
                 initial={{ opacity: 0, y: 24 }}
@@ -23,7 +22,6 @@ export default function ProjectsPage() {
                 </p>
             </motion.div>
 
-            {/* Project list */}
             <div>
                 {projects.map((project, index) => (
                     <motion.div
@@ -35,12 +33,10 @@ export default function ProjectsPage() {
                     >
                         <div className="group border-b border-border/40 py-8 transition-colors hover:border-border">
                             <div className="flex items-start gap-6">
-                                {/* Index */}
                                 <span className="font-mono text-xs text-muted-foreground/40 mt-1.5 shrink-0 w-6 text-right">
                                     {String(index + 1).padStart(2, "0")}
                                 </span>
 
-                                {/* Content */}
                                 <div className="flex-1 min-w-0 space-y-3">
                                     <div className="flex items-start justify-between gap-4">
                                         <h2 className="text-2xl font-black tracking-tight leading-tight group-hover:underline underline-offset-4 decoration-border">
@@ -65,7 +61,6 @@ export default function ProjectsPage() {
                                         ))}
                                     </div>
 
-                                    {/* Links */}
                                     <div className="flex items-center gap-4 pt-1">
                                         {project.demoUrl && project.demoUrl !== "#" && (
                                             <Link

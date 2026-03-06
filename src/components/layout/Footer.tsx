@@ -7,7 +7,6 @@ import { ArrowUp } from "lucide-react"
 export function Footer() {
     return (
         <footer className="relative border-t border-border/30 overflow-hidden">
-            {/* Watermark */}
             <p
                 aria-hidden
                 className="pointer-events-none select-none absolute inset-x-0 bottom-0 text-center font-black tracking-tighter leading-none text-foreground/[0.04] translate-y-[20%]"
@@ -17,7 +16,6 @@ export function Footer() {
             </p>
 
             <div className="relative z-10 max-w-2xl mx-auto px-6 py-14 flex flex-col items-center gap-8">
-                {/* Social icons */}
                 <div className="flex items-center gap-3">
                     {socialLinks.map((link) => (
                         <Link
@@ -33,10 +31,8 @@ export function Footer() {
                     ))}
                 </div>
 
-                {/* Divider */}
                 <div className="w-px h-6 bg-border/40" />
 
-                {/* Bottom row */}
                 <div className="flex items-center justify-between w-full">
                     <p className="text-xs text-muted-foreground/50">
                         © {new Date().getFullYear()} emirhan
