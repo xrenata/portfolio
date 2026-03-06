@@ -13,7 +13,7 @@ export function WakatimeCard() {
     const text: string | undefined = data?.data?.text
 
     return (
-        <div className="w-full rounded-2xl border border-border bg-card p-5 transition-all hover:border-border/60 hover:shadow-lg hover:shadow-black/20 flex items-center justify-between gap-4">
+        <div className="w-full rounded-2xl border border-border bg-card p-5 transition-colors hover:border-border/60 flex items-center justify-between gap-4">
             <div className="min-w-0 space-y-1">
                 <p className="text-xl font-black tracking-tight text-foreground leading-none truncate">
                     {text ?? "—"}

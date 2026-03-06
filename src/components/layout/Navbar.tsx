@@ -23,7 +23,7 @@ export function Navbar() {
 
     return (
         <header className="fixed top-4 inset-x-0 z-50 flex justify-center px-4">
-            <div className="flex h-13 items-center gap-0.5 rounded-full border border-border bg-background/90 backdrop-blur-xl px-3 shadow-xl shadow-black/30">
+            <div className="flex h-13 items-center gap-0.5 rounded-full border border-border bg-background/90 backdrop-blur-xl px-3 shadow-lg shadow-black/10">
 
                 <Link href="/" className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-muted/60 transition-colors mr-0.5">
                     <div className="relative h-6 w-6 overflow-hidden rounded-full ring-1 ring-border/60">

@@ -16,7 +16,7 @@ export function SpotifyCard() {
     const hasTrack = data?.isPlaying || data?.lastPlayed
 
     return (
-        <div className="w-full rounded-2xl border border-border bg-card p-5 transition-all hover:border-border/60 hover:shadow-lg hover:shadow-black/20">
+        <div className="w-full rounded-2xl border border-border bg-card p-5 transition-colors hover:border-border/60">
             <div className="flex items-center gap-4">
                 <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-muted">
                     {hasTrack && data?.albumImageUrl ? (
