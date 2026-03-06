@@ -121,6 +121,11 @@
   --sidebar-ring: oklch(0.8 0 0);
 }
 
+@keyframes eq {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+
 @layer base {
   html {
     scrollbar-gutter: stable;
