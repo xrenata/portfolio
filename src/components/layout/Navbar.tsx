@@ -25,7 +25,6 @@ export function Navbar() {
         <header className="fixed top-4 inset-x-0 z-50 flex justify-center px-4">
             <div className="flex h-13 items-center gap-0.5 rounded-full border border-border bg-background/90 backdrop-blur-xl px-3 shadow-xl shadow-black/30">
 
-                {/* Avatar */}
                 <Link href="/" className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-muted/60 transition-colors mr-0.5">
                     <div className="relative h-6 w-6 overflow-hidden rounded-full ring-1 ring-border/60">
                         <Image src="/avatar.jpeg" alt="Emirhan" fill className="object-cover" priority />
@@ -34,7 +33,6 @@ export function Navbar() {
 
                 <div className="h-4 w-px bg-border/50 mx-1" />
 
-                {/* Desktop links */}
                 <nav className="hidden md:flex items-center gap-0.5">
                     {routes.map((route) => {
                         const isActive = pathname === route.href
@@ -57,7 +55,6 @@ export function Navbar() {
 
                 <div className="hidden md:block h-4 w-px bg-border/50 mx-1" />
 
-                {/* Theme toggle */}
                 <button
                     onClick={() => setTheme(currentTheme === "dark" ? "light" : "dark")}
                     className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
@@ -69,7 +66,6 @@ export function Navbar() {
                     }
                 </button>
 
-                {/* Mobile menu trigger */}
                 <div className="md:hidden">
                     <Sheet open={open} onOpenChange={setOpen}>
                         <SheetTrigger asChild>
@@ -82,7 +78,6 @@ export function Navbar() {
                             <SheetTitle className="sr-only">Navigation</SheetTitle>
                             <SheetDescription className="sr-only">Main site navigation</SheetDescription>
 
-                            {/* Profile */}
                             <div className="flex items-center gap-3 px-2 pt-8 pb-6 border-b border-border/40">
                                 <div className="relative h-10 w-10 overflow-hidden rounded-full ring-1 ring-border/60">
                                     <Image src="/avatar.jpeg" alt="Emirhan" fill className="object-cover" />
@@ -93,7 +88,6 @@ export function Navbar() {
                                 </div>
                             </div>
 
-                            {/* Links */}
                             <nav className="flex flex-col gap-1 mt-4 px-2">
                                 {routes.map((route) => {
                                     const isActive = pathname === route.href
@@ -115,7 +109,6 @@ export function Navbar() {
                                 })}
                             </nav>
 
-                            {/* Socials */}
                             <div className="mt-auto px-4 pb-8">
                                 <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold mb-3">Socials</p>
                                 <div className="flex items-center gap-2">

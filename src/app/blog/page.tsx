@@ -10,7 +10,6 @@ export default function BlogPage() {
     return (
         <div className="w-full max-w-2xl mx-auto pb-24 px-6">
 
-            {/* Header */}
             <FadeIn className="py-12 border-b border-border/40 space-y-3">
                 <h1 className="text-6xl font-black tracking-tighter leading-none">Blog</h1>
                 <p className="text-muted-foreground text-sm">
@@ -20,7 +19,6 @@ export default function BlogPage() {
                 </p>
             </FadeIn>
 
-            {/* Posts */}
             <FadeInStagger>
                 {posts.length === 0 && (
                     <p className="text-muted-foreground italic py-12">No posts yet.</p>
