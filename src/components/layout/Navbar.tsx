@@ -6,43 +6,36 @@ import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 import { useTheme } from "next-themes"
-
-import { routes } from "@/data/site"
+import { routes, socialLinks } from "@/data/site"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet"
 import { Menu, Moon, Sun } from "lucide-react"
 import { useState } from "react"
-import { socialLinks } from "@/data/site"
 
 export function Navbar() {
     const pathname = usePathname()
     const [open, setOpen] = useState(false)
-    const { theme, setTheme, resolvedTheme } = useTheme()
+    const { setTheme, resolvedTheme } = useTheme()
     const [mounted, setMounted] = React.useState(false)
 
-    React.useEffect(() => {
-        setMounted(true)
-    }, [])
+    React.useEffect(() => { setMounted(true) }, [])
 
-    const currentTheme = mounted ? resolvedTheme : 'dark'
+    const currentTheme = mounted ? resolvedTheme : "dark"
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/40 supports-[backdrop-filter]:bg-background/60">
-            <div className="flex h-16 items-center justify-between px-6 max-w-2xl mx-auto w-full">
-                <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                    <div className="relative h-9 w-9 overflow-hidden rounded-full ring-2 ring-primary/20">
-                        <Image
-                            src="/avatar.jpeg"
-                            alt="Emirhan"
-                            fill
-                            className="object-cover"
-                            priority
-                        />
+        <header className="fixed top-4 inset-x-0 z-50 flex justify-center px-4">
+            <div className="flex h-13 items-center gap-0.5 rounded-full border border-border bg-background/90 backdrop-blur-xl px-3 shadow-xl shadow-black/30">
+
+                {/* Avatar */}
+                <Link href="/" className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-muted/60 transition-colors mr-0.5">
+                    <div className="relative h-6 w-6 overflow-hidden rounded-full ring-1 ring-border/60">
+                        <Image src="/avatar.jpeg" alt="Emirhan" fill className="object-cover" priority />
                     </div>
-                    <span className="font-bold tracking-tight hidden sm:block">emirhan</span>
                 </Link>
 
-                {/* Desktop Nav */}
-                <nav className="hidden md:flex items-center gap-6">
+                <div className="h-4 w-px bg-border/50 mx-1" />
+
+                {/* Desktop links */}
+                <nav className="hidden md:flex items-center gap-0.5">
                     {routes.map((route) => {
                         const isActive = pathname === route.href
                         return (
@@ -50,108 +43,98 @@ export function Navbar() {
                                 key={route.href}
                                 href={route.href}
                                 className={cn(
-                                    "text-sm font-medium transition-colors hover:text-foreground",
+                                    "px-3 py-1.5 rounded-full text-xs font-medium transition-all",
                                     isActive
-                                        ? "text-foreground font-semibold underline decoration-2 decoration-primary/50 underline-offset-4"
-                                        : "text-muted-foreground"
+                                        ? "bg-muted text-foreground"
+                                        : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                                 )}
                             >
                                 {route.label}
                             </Link>
                         )
                     })}
-                    <button
-                        onClick={() => setTheme(currentTheme === "dark" ? "light" : "dark")}
-                        className="p-2 rounded-md hover:bg-muted transition-colors"
-                        aria-label="Toggle theme"
-                    >
-                        {currentTheme === "dark" ? (
-                            <Sun className="h-5 w-5 text-muted-foreground hover:text-foreground" />
-                        ) : (
-                            <Moon className="h-5 w-5 text-muted-foreground hover:text-foreground" />
-                        )}
-                    </button>
                 </nav>
 
-                {/* Mobile Nav */}
-                <div className="md:hidden flex items-center gap-2">
-                    <button
-                        onClick={() => setTheme(currentTheme === "dark" ? "light" : "dark")}
-                        className="p-2 rounded-md hover:bg-muted transition-colors"
-                        aria-label="Toggle theme"
-                    >
-                        {currentTheme === "dark" ? (
-                            <Sun className="h-5 w-5 text-muted-foreground hover:text-foreground" />
-                        ) : (
-                            <Moon className="h-5 w-5 text-muted-foreground hover:text-foreground" />
-                        )}
-                    </button>
+                <div className="hidden md:block h-4 w-px bg-border/50 mx-1" />
+
+                {/* Theme toggle */}
+                <button
+                    onClick={() => setTheme(currentTheme === "dark" ? "light" : "dark")}
+                    className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+                    aria-label="Toggle theme"
+                >
+                    {currentTheme === "dark"
+                        ? <Sun className="h-3.5 w-3.5" />
+                        : <Moon className="h-3.5 w-3.5" />
+                    }
+                </button>
+
+                {/* Mobile menu trigger */}
+                <div className="md:hidden">
                     <Sheet open={open} onOpenChange={setOpen}>
                         <SheetTrigger asChild>
-                            <button className="p-2 -mr-2 text-foreground/80 hover:text-foreground transition-colors">
-                                <Menu className="h-5 w-5" />
+                            <button className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors">
+                                <Menu className="h-3.5 w-3.5" />
                                 <span className="sr-only">Open menu</span>
                             </button>
                         </SheetTrigger>
-                    <SheetContent side="right" className="w-[300px] sm:w-[400px] flex flex-col">
-                        <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-                        <SheetDescription className="sr-only">Main site navigation</SheetDescription>
+                        <SheetContent side="right" className="w-[280px] flex flex-col border-border/50 bg-background/95 backdrop-blur-xl">
+                            <SheetTitle className="sr-only">Navigation</SheetTitle>
+                            <SheetDescription className="sr-only">Main site navigation</SheetDescription>
 
-                        <div className="flex items-center gap-4 px-2 py-6 border-b border-border/50">
-                            <div className="relative h-12 w-12 overflow-hidden rounded-full ring-2 ring-primary/20">
-                                <Image
-                                    src="/avatar.jpeg"
-                                    alt="Emirhan"
-                                    fill
-                                    className="object-cover"
-                                />
+                            {/* Profile */}
+                            <div className="flex items-center gap-3 px-2 pt-8 pb-6 border-b border-border/40">
+                                <div className="relative h-10 w-10 overflow-hidden rounded-full ring-1 ring-border/60">
+                                    <Image src="/avatar.jpeg" alt="Emirhan" fill className="object-cover" />
+                                </div>
+                                <div>
+                                    <p className="font-bold leading-none">emirhan</p>
+                                    <p className="text-xs text-muted-foreground mt-1">Full-Stack Developer</p>
+                                </div>
                             </div>
-                            <div className="flex flex-col">
-                                <span className="font-bold text-lg leading-none">emirhan</span>
-                                <span className="text-xs text-muted-foreground">Full-stack Developer</span>
-                            </div>
-                        </div>
 
-                        <nav className="flex flex-col gap-2 mt-6 px-2">
-                            {routes.map((route) => {
-                                const isActive = pathname === route.href
-                                return (
-                                    <Link
-                                        key={route.href}
-                                        href={route.href}
-                                        onClick={() => setOpen(false)}
-                                        className={cn(
-                                            "text-lg font-medium transition-all px-4 py-3 rounded-md hover:bg-muted/50",
-                                            isActive
-                                                ? "text-foreground bg-muted/50"
-                                                : "text-muted-foreground hover:text-foreground"
-                                        )}
-                                    >
-                                        {route.label}
-                                    </Link>
-                                )
-                            })}
-                        </nav>
+                            {/* Links */}
+                            <nav className="flex flex-col gap-1 mt-4 px-2">
+                                {routes.map((route) => {
+                                    const isActive = pathname === route.href
+                                    return (
+                                        <Link
+                                            key={route.href}
+                                            href={route.href}
+                                            onClick={() => setOpen(false)}
+                                            className={cn(
+                                                "px-4 py-2.5 rounded-xl text-sm font-medium transition-all",
+                                                isActive
+                                                    ? "bg-muted text-foreground"
+                                                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                                            )}
+                                        >
+                                            {route.label}
+                                        </Link>
+                                    )
+                                })}
+                            </nav>
 
-                        <div className="mt-auto px-4 pb-8 space-y-4">
-                            <p className="text-xs text-muted-foreground uppercase font-semibold tracking-wider">Socials</p>
-                            <div className="flex items-center gap-4">
-                                {socialLinks.map((link) => (
-                                    <Link
-                                        key={link.name}
-                                        href={link.href}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="h-10 w-10 flex items-center justify-center rounded-full bg-muted/50 text-muted-foreground hover:bg-primary/10 hover:text-primary transition-colors"
-                                    >
-                                        <link.icon className="h-5 w-5" />
-                                        <span className="sr-only">{link.name}</span>
-                                    </Link>
-                                ))}
+                            {/* Socials */}
+                            <div className="mt-auto px-4 pb-8">
+                                <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold mb-3">Socials</p>
+                                <div className="flex items-center gap-2">
+                                    {socialLinks.map((link) => (
+                                        <Link
+                                            key={link.name}
+                                            href={link.href}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="flex h-9 w-9 items-center justify-center rounded-full border border-border/50 text-muted-foreground hover:text-foreground hover:border-border transition-all"
+                                        >
+                                            <link.icon className="h-4 w-4" />
+                                            <span className="sr-only">{link.name}</span>
+                                        </Link>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    </SheetContent>
-                </Sheet>
+                        </SheetContent>
+                    </Sheet>
                 </div>
             </div>
         </header>
