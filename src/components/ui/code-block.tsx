@@ -95,7 +95,7 @@ export function CodeBlock({ language, value, filename }: CodeBlockProps) {
                     customStyle={{
                         margin: 0,
                         padding: '1.25rem',
-                        background: 'transparent',
+                        backgroundColor: 'transparent',
                         fontSize: '0.9rem',
                         lineHeight: '1.5',
                         border: 'none',
