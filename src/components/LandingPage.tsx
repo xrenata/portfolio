@@ -101,7 +101,7 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                     </motion.div>
 
                     <motion.h1
-                        className="text-[clamp(4.5rem,16vw,13rem)] font-black tracking-tighter leading-none"
+                        className="text-[clamp(4.5rem,16vw,13rem)] font-black tracking-tighter leading-none translate-x-[4px]"
                         initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
