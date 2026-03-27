@@ -17,6 +17,7 @@ export const routes = [
     { href: "/", label: "Home" },
     { href: "/projects", label: "Projects" },
     { href: "/skills", label: "Skills" },
+    { href: "/bookmarks", label: "Bookmarks" },
     { href: "/blog", label: "Blog" },
     { href: "/about", label: "About" },
 ]

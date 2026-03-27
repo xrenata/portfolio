@@ -16,7 +16,7 @@ export function WakatimeCard() {
         <div className="w-full rounded-2xl border border-border bg-card p-5 transition-colors hover:border-border/60 flex items-center justify-between gap-4">
             <div className="min-w-0 space-y-1">
                 <p className="text-xl font-black tracking-tight text-foreground leading-none truncate">
-                    {text ?? "—"}
+                    {text ?? "-"}
                 </p>
                 <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">
                     Total coding time

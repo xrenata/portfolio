@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useState, useEffect } from "react"
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
 import Link from "next/link"
 import { ArrowDown, ArrowRight } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
@@ -21,28 +21,59 @@ const roles = [
 
 function RoleCycler() {
     const [index, setIndex] = useState(0)
+    const [displayedText, setDisplayedText] = useState("")
+    const [phase, setPhase] = useState<"typing" | "pausing" | "deleting">("typing")
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setIndex(i => (i + 1) % roles.length)
-        }, 2600)
-        return () => clearInterval(interval)
-    }, [])
+        const currentRole = roles[index]
+
+        if (phase === "typing") {
+            if (displayedText.length < currentRole.length) {
+                const timeout = window.setTimeout(() => {
+                    setDisplayedText(currentRole.slice(0, displayedText.length + 1))
+                }, 55)
+
+                return () => window.clearTimeout(timeout)
+            }
+
+            const timeout = window.setTimeout(() => {
+                setPhase("pausing")
+            }, 1300)
+
+            return () => window.clearTimeout(timeout)
+        }
+
+        if (phase === "pausing") {
+            const timeout = window.setTimeout(() => {
+                setPhase("deleting")
+            }, 250)
+
+            return () => window.clearTimeout(timeout)
+        }
+
+        if (displayedText.length > 0) {
+            const timeout = window.setTimeout(() => {
+                setDisplayedText(currentRole.slice(0, displayedText.length - 1))
+            }, 32)
+
+            return () => window.clearTimeout(timeout)
+        }
+
+        setPhase("typing")
+        setIndex((currentIndex) => (currentIndex + 1) % roles.length)
+    }, [displayedText, index, phase])
 
     return (
-        <div className="relative h-8 overflow-hidden">
-            <AnimatePresence mode="wait">
+        <div className="flex min-h-8 items-center justify-center">
+            <div className="inline-flex min-w-[18ch] items-center justify-center text-center text-xl font-medium tracking-tight text-muted-foreground">
+                <span>{displayedText}</span>
                 <motion.span
-                    key={index}
-                    initial={{ y: 22, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -22, opacity: 0 }}
-                    transition={{ duration: 0.32, ease: "easeOut" }}
-                    className="absolute inset-x-0 flex justify-center items-center text-xl font-medium text-muted-foreground tracking-tight"
-                >
-                    {roles[index]}
-                </motion.span>
-            </AnimatePresence>
+                    aria-hidden
+                    className="ml-1 inline-block h-[1.05em] w-px bg-current align-middle"
+                    animate={{ opacity: [1, 0, 1] }}
+                    transition={{ duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
+                />
+            </div>
         </div>
     )
 }
@@ -79,8 +110,14 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
     return (
         <div>
             <section className="relative min-h-[calc(100svh-5rem)] flex flex-col items-center justify-center px-6 text-center">
-                <div className="absolute inset-x-0 -top-20 bottom-0 hidden dark:block bg-[linear-gradient(to_right,#ffffff14_1px,transparent_1px),linear-gradient(to_bottom,#ffffff14_1px,transparent_1px)] bg-[size:64px_64px]" />
-                <div className="absolute inset-x-0 -top-20 bottom-0 block dark:hidden bg-[linear-gradient(to_right,#00000010_1px,transparent_1px),linear-gradient(to_bottom,#00000010_1px,transparent_1px)] bg-[size:64px_64px]" />
+                <div
+                    aria-hidden
+                    className="absolute inset-x-0 -top-20 bottom-0 hidden dark:block bg-[linear-gradient(to_right,#ffffff14_1px,transparent_1px),linear-gradient(to_bottom,#ffffff14_1px,transparent_1px)] bg-[size:64px_64px]"
+                />
+                <div
+                    aria-hidden
+                    className="absolute inset-x-0 -top-20 bottom-0 block dark:hidden bg-[linear-gradient(to_right,#00000010_1px,transparent_1px),linear-gradient(to_bottom,#00000010_1px,transparent_1px)] bg-[size:64px_64px]"
+                />
                 <div className="absolute inset-x-0 -top-20 bottom-0 bg-[radial-gradient(ellipse_70%_40%_at_50%_10%,oklch(0.5_0_0/0.06),transparent)]" />
                 <div className="absolute bottom-0 left-0 right-0 h-56 bg-gradient-to-t from-background to-transparent" />
 
@@ -169,7 +206,7 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                                     {phrase.text}
                                 </p>
                                 <p className="mt-5 text-base md:text-lg text-muted-foreground font-medium tracking-wide">
-                                    — {phrase.sub}
+                                    - {phrase.sub}
                                 </p>
                             </motion.div>
                         ))}

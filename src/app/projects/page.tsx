@@ -18,7 +18,7 @@ export default function ProjectsPage() {
             >
                 <h1 className="text-6xl font-black tracking-tighter leading-none">Projects</h1>
                 <p className="text-muted-foreground text-sm">
-                    {projects.length} projects — open source, freelance & experimental.
+                    {projects.length} projects - open source, freelance & experimental.
                 </p>
             </motion.div>
 

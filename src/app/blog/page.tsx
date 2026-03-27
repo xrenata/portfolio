@@ -14,7 +14,7 @@ export default function BlogPage() {
                 <h1 className="text-6xl font-black tracking-tighter leading-none">Blog</h1>
                 <p className="text-muted-foreground text-sm">
                     {posts.length > 0
-                        ? `${posts.length} post${posts.length > 1 ? "s" : ""} — thoughts, tutorials, and insights.`
+                        ? `${posts.length} post${posts.length > 1 ? "s" : ""} - thoughts, tutorials, and insights.`
                         : "Thoughts, tutorials, and insights on development and design."}
                 </p>
             </FadeIn>
