@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useState, useEffect } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { ArrowDown, ArrowRight } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
@@ -87,26 +87,18 @@ const storyPhrases = [
 
 export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
     const storyRef = useRef<HTMLDivElement>(null)
+    const [activePhrase, setActivePhrase] = useState(0)
 
     const { scrollYProgress } = useScroll({
         target: storyRef,
         offset: ["start start", "end end"],
     })
 
-    const p1Opacity = useTransform(scrollYProgress, [0, 0.01, 0.26, 0.34], [1, 1, 1, 0])
-    const p1Y = useTransform(scrollYProgress, [0.26, 0.34], [0, -50])
-
-    const p2Opacity = useTransform(scrollYProgress, [0.3, 0.4, 0.62, 0.7], [0, 1, 1, 0])
-    const p2Y = useTransform(scrollYProgress, [0.3, 0.4, 0.62, 0.7], [50, 0, 0, -50])
-
-    const p3Opacity = useTransform(scrollYProgress, [0.66, 0.76, 1, 1], [0, 1, 1, 1])
-    const p3Y = useTransform(scrollYProgress, [0.66, 0.76], [50, 0])
-
-    const phraseMotions = [
-        { opacity: p1Opacity, y: p1Y },
-        { opacity: p2Opacity, y: p2Y },
-        { opacity: p3Opacity, y: p3Y },
-    ]
+    useMotionValueEvent(scrollYProgress, "change", (progress) => {
+        if (progress < 0.34) setActivePhrase(0)
+        else if (progress < 0.67) setActivePhrase(1)
+        else setActivePhrase(2)
+    })
 
     return (
         <div>
@@ -171,24 +163,24 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
 
             <section ref={storyRef} className="relative" style={{ height: "260vh" }}>
                 <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden px-8">
-                    <div className="relative w-full max-w-4xl text-center" style={{ height: "14rem" }}>
-                        {storyPhrases.map((phrase, i) => (
+                    <div className="relative w-full max-w-4xl text-center">
+                        <AnimatePresence mode="wait">
                             <motion.div
-                                key={i}
-                                style={{
-                                    opacity: phraseMotions[i].opacity,
-                                    y: phraseMotions[i].y,
-                                }}
-                                className="absolute inset-0 flex flex-col items-center justify-center"
+                                key={activePhrase}
+                                initial={{ opacity: 0, y: 40 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -40 }}
+                                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                                className="flex flex-col items-center justify-center"
                             >
                                 <p className="text-[clamp(2.8rem,7.5vw,6.5rem)] font-black tracking-tighter leading-[1.04] whitespace-pre-line">
-                                    {phrase.text}
+                                    {storyPhrases[activePhrase].text}
                                 </p>
                                 <p className="mt-5 text-base md:text-lg text-muted-foreground font-medium tracking-wide">
-                                    - {phrase.sub}
+                                    - {storyPhrases[activePhrase].sub}
                                 </p>
                             </motion.div>
-                        ))}
+                        </AnimatePresence>
                     </div>
                 </div>
             </section>
