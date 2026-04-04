@@ -10,11 +10,12 @@ import { routes, socialLinks } from "@/data/site"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet"
 import { Menu, Moon, Sun } from "lucide-react"
 import { useState } from "react"
+import { ThemeToggler } from "@/components/animate-ui/primitives/effects/theme-toggler"
 
 export function Navbar() {
     const pathname = usePathname()
     const [open, setOpen] = useState(false)
-    const { setTheme, resolvedTheme } = useTheme()
+    const { setTheme, resolvedTheme, theme } = useTheme()
     const [mounted, setMounted] = React.useState(false)
 
     React.useEffect(() => { setMounted(true) }, [])
@@ -55,16 +56,25 @@ export function Navbar() {
 
                 <div className="hidden md:block h-4 w-px bg-border/50 mx-1" />
 
-                <button
-                    onClick={() => setTheme(currentTheme === "dark" ? "light" : "dark")}
-                    className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
-                    aria-label="Toggle theme"
+                <ThemeToggler
+                    theme={(theme as any) ?? 'system'}
+                    resolvedTheme={(resolvedTheme as any) ?? 'light'}
+                    setTheme={setTheme}
+                    direction="ttb"
                 >
-                    {currentTheme === "dark"
-                        ? <Sun className="h-3.5 w-3.5" />
-                        : <Moon className="h-3.5 w-3.5" />
-                    }
-                </button>
+                    {({ effective, toggleTheme }) => (
+                        <button
+                            onClick={() => toggleTheme(effective === 'dark' ? 'light' : 'dark')}
+                            className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+                            aria-label="Toggle theme"
+                        >
+                            {(mounted ? effective : 'dark') === 'dark'
+                                ? <Sun className="h-3.5 w-3.5" />
+                                : <Moon className="h-3.5 w-3.5" />
+                            }
+                        </button>
+                    )}
+                </ThemeToggler>
 
                 <div className="md:hidden">
                     <Sheet open={open} onOpenChange={setOpen}>

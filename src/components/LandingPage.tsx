@@ -11,6 +11,7 @@ import { socialLinks } from "@/data/site"
 import type { BlogPost } from "@/lib/blog"
 import { TopTracksSection } from "@/components/TopTracksSection"
 import { FavoritesSection } from "@/components/FavoritesSection"
+import { GravityStarsBackground } from '@/components/animate-ui/components/backgrounds/gravity-stars'
 
 const roles = [
     "Full-Stack Developer",
@@ -110,35 +111,13 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
     return (
         <div>
             <section className="relative min-h-[calc(100svh-5rem)] flex flex-col items-center justify-center px-6 text-center">
-                <div
-                    aria-hidden
-                    className="absolute inset-x-0 -top-20 bottom-0 hidden dark:block bg-[linear-gradient(to_right,#ffffff14_1px,transparent_1px),linear-gradient(to_bottom,#ffffff14_1px,transparent_1px)] bg-[size:64px_64px]"
-                />
-                <div
-                    aria-hidden
-                    className="absolute inset-x-0 -top-20 bottom-0 block dark:hidden bg-[linear-gradient(to_right,#00000010_1px,transparent_1px),linear-gradient(to_bottom,#00000010_1px,transparent_1px)] bg-[size:64px_64px]"
-                />
-                <div className="absolute inset-x-0 -top-20 bottom-0 bg-[radial-gradient(ellipse_70%_40%_at_50%_10%,oklch(0.5_0_0/0.06),transparent)]" />
-                <div className="absolute bottom-0 left-0 right-0 h-56 bg-gradient-to-t from-background to-transparent" />
+                <GravityStarsBackground className="absolute inset-0" />
+                <div className="absolute inset-x-0 -top-20 bottom-0 bg-[radial-gradient(ellipse_70%_40%_at_50%_10%,oklch(0.5_0_0/0.06),transparent)] pointer-events-none" />
+                <div className="absolute bottom-0 left-0 right-0 h-56 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
 
-                <div className="relative z-10 space-y-8 max-w-5xl w-full">
-                    <motion.div
-                        className="flex justify-center"
-                        initial={{ opacity: 0, y: 16 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1, duration: 0.6 }}
-                    >
-                        <div className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/40 px-3 py-1.5 text-xs text-muted-foreground">
-                            <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-60" />
-                                <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
-                            </span>
-                            Available for work
-                        </div>
-                    </motion.div>
-
+                <div className="relative z-10 space-y-8 max-w-5xl w-full flex flex-col items-center">
                     <motion.h1
-                        className="text-[clamp(4.5rem,16vw,13rem)] font-black tracking-tighter leading-none translate-x-[4px]"
+                        className="text-[clamp(4.5rem,16vw,13rem)] font-black tracking-tighter leading-none"
                         initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
