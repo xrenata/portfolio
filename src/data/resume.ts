@@ -5,6 +5,7 @@ export interface Experience {
     period: string
     description: string
     tags: string[]
+    link?: string
 }
 
 export const ABOUT = {
@@ -17,11 +18,20 @@ export const ABOUT = {
 
 export const WORK_EXPERIENCE: Experience[] = [
     {
-        company: "Eupholias Developers",
-        role: "Tech Lead",
-        period: "2025 - Present",
-        description: "Leading the frontend team in rebuilding the core product dashboard using Next.js and React Query.",
-        tags: ["React", "TypeScript", "GraphQL", "Elysia", "Prisma", "PostgreSQL", "Redis", "MongoDB"]
+        company: "Nodx",
+        role: "Founder & Developer",
+        period: "2026 - Present",
+        description: "Building scalable, accessible, and performant applications.",
+        tags: ["React", "TypeScript", "Next.js", "Tailwind CSS"],
+        link: "https://nodx.org"
+    },
+    {
+        company: "Sooliva",
+        role: "Senior Frontend Developer",
+        period: "2026 - Present",
+        description: "Building scalable, accessible, and performant applications.",
+        tags: ["React", "TypeScript", "Next.js", "Tailwind CSS"],
+        link: "https://sooliva.com"
     },
     {
         company: "Freelance",
@@ -35,7 +45,8 @@ export const WORK_EXPERIENCE: Experience[] = [
         role: "Support Team",
         period: "2022 - Present",
         description: "Providing technical support and resolving customer issues.",
-        tags: ["React", "TypeScript", "GraphQL"]
+        tags: ["React", "TypeScript", "GraphQL"],
+        link: "https://nodesty.com"
     },
     {
         company: "Freelance",
@@ -43,5 +54,13 @@ export const WORK_EXPERIENCE: Experience[] = [
         period: "2017 - Present",
         description: "Building scalable, accessible, and performant applications.",
         tags: ["Node.js","Fastify","Socket.io"]
+    },
+    {
+        company: "Eupholias Developers",
+        role: "Tech Lead",
+        period: "2025 - 2026",
+        description: "Leading the frontend team in rebuilding the core product dashboard using Next.js and React Query.",
+        tags: ["React", "TypeScript", "GraphQL", "Elysia", "Prisma", "PostgreSQL", "Redis", "MongoDB"],
+        link: "https://eupholias.com"
     }
 ]

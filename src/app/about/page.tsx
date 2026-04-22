@@ -44,7 +44,13 @@ export default function AboutPage() {
                                                 <h3 className="text-xl font-bold tracking-tight leading-tight">
                                                     {job.role}
                                                 </h3>
-                                                <p className="text-sm text-muted-foreground mt-0.5">{job.company}</p>
+                                                {job.link ? (
+                                                    <a href={job.link} target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground mt-0.5 hover:text-foreground transition-colors">
+                                                        {job.company}
+                                                    </a>
+                                                ) : (
+                                                    <p className="text-sm text-muted-foreground mt-0.5">{job.company}</p>
+                                                )}
                                             </div>
                                             <span className="font-mono text-[10px] text-muted-foreground/50 shrink-0 mt-1">
                                                 {job.period}
