@@ -5,8 +5,6 @@ import { siteConfig } from "@/data/site"
 import { useLanternPresence, type LanternPresence, type DiscordStatus } from "@/hooks/useLanternPresence"
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip"
 
-// ─── Icons ───────────────────────────────────────────────────────────────────
-
 function SpotifyIcon({ className }: { className?: string }) {
     return (
         <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
@@ -31,8 +29,6 @@ function TelegramIcon({ className }: { className?: string }) {
     )
 }
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-
 const STATUS_COLORS: Record<DiscordStatus, string> = {
     online: "bg-green-500",
     idle: "bg-yellow-500",
@@ -40,7 +36,6 @@ const STATUS_COLORS: Record<DiscordStatus, string> = {
     offline: "bg-zinc-500",
 }
 
-/** Resolve a Discord activity asset to a usable image URL and text */
 function resolveActivityAsset(v: unknown, fallbackText: string | undefined, appId: string | undefined): { url: string | null; text: string | null } {
     if (v == null) return { url: null, text: fallbackText ?? null }
 
@@ -49,7 +44,6 @@ function resolveActivityAsset(v: unknown, fallbackText: string | undefined, appI
 
     let raw: string | null = null
 
-    // If it's an object, extract image_url/hash/id and text
     if (typeof v === "object") {
         const obj = v as Record<string, unknown>
         if (typeof obj.text === "string") text = obj.text
@@ -64,15 +58,16 @@ function resolveActivityAsset(v: unknown, fallbackText: string | undefined, appI
 
     if (!raw) return { url: null, text }
 
-    // Already a full URL (Lantern sends these sometimes)
     if (raw.startsWith("http://") || raw.startsWith("https://")) {
         url = raw
     } else if (raw.startsWith("mp:external/")) {
-        // Discord media proxy format
         url = `https://media.discordapp.net/external/${raw.slice("mp:external/".length)}`
     } else if (appId) {
-        // Plain hash → app asset CDN
         url = `https://cdn.discordapp.com/app-assets/${appId}/${raw}.png`
+    }
+
+    if (url) {
+        url = `/api/discord-image?url=${encodeURIComponent(url)}`
     }
 
     return { url, text }
@@ -97,10 +92,6 @@ function useElapsed(startTs: number | undefined): string {
     }, [startTs])
     return elapsed
 }
-
-// (CardShell removed as it's no longer needed)
-
-// ─── Export ──────────────────────────────────────────────────────────────────
 
 export function LanternHeroCards() {
     const { presence } = useLanternPresence(siteConfig.lanternUserId)

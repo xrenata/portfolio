@@ -52,7 +52,7 @@ export function AvatarWithStatus({
 
     const user = presence?.discord_user
     const discordAvatarUrl = user?.id && user?.avatar
-        ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256`
+        ? `/api/discord-image?url=${encodeURIComponent(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256`)}`
         : "/avatar.jpeg"
 
     const activeClientIcon = mobile
@@ -75,7 +75,7 @@ export function AvatarWithStatus({
                     className="object-cover"
                     priority
                     sizes="256px"
-                    unoptimized={discordAvatarUrl.startsWith("https://cdn.discordapp.com")}
+                    unoptimized={true}
                 />
             </div>
 
