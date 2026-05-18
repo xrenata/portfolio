@@ -12,6 +12,16 @@ export interface Project {
 
 export const projects: Project[] = [
     {
+        id: "nodx",
+        title: "Nodx",
+        description: "Official Nodx project website.",
+        tags: ["Nodx", "Platform"],
+        demoUrl: "https://nodx.org",
+        repoUrl: "#",
+        image: "/projects/nodx.png",
+        version: "v1.0.0"
+    },
+    {
         id: "emirhan-cv",
         title: "emirhan.cv",
         description: "Made with React, TypeScript, and TailwindCSS. It includes a breakdown of my top Spotify tracks!",

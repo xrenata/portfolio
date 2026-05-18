@@ -1,91 +1,32 @@
 "use client"
 
-import { useRef, useState, useEffect } from "react"
+import { useRef, useState } from "react"
+import Image from "next/image"
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { ArrowDown, ArrowRight } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { SpotifyCard } from "@/components/SpotifyCard"
-import { WakatimeCard } from "@/components/WakatimeCard"
-import { socialLinks } from "@/data/site"
 import type { BlogPost } from "@/lib/blog"
 import { TopTracksSection } from "@/components/TopTracksSection"
 import { FavoritesSection } from "@/components/FavoritesSection"
 import { GravityStarsBackground } from '@/components/animate-ui/components/backgrounds/gravity-stars'
-
-const roles = [
-    "Full-Stack Developer",
-    "Frontend Engineer",
-    "Backend Developer",
-    "Open Source Contributor",
-]
-
-function RoleCycler() {
-    const [index, setIndex] = useState(0)
-    const [displayedText, setDisplayedText] = useState("")
-    const [phase, setPhase] = useState<"typing" | "pausing" | "deleting">("typing")
-
-    useEffect(() => {
-        const currentRole = roles[index]
-
-        if (phase === "typing") {
-            if (displayedText.length < currentRole.length) {
-                const timeout = window.setTimeout(() => {
-                    setDisplayedText(currentRole.slice(0, displayedText.length + 1))
-                }, 55)
-
-                return () => window.clearTimeout(timeout)
-            }
-
-            const timeout = window.setTimeout(() => {
-                setPhase("pausing")
-            }, 1300)
-
-            return () => window.clearTimeout(timeout)
-        }
-
-        if (phase === "pausing") {
-            const timeout = window.setTimeout(() => {
-                setPhase("deleting")
-            }, 250)
-
-            return () => window.clearTimeout(timeout)
-        }
-
-        if (displayedText.length > 0) {
-            const timeout = window.setTimeout(() => {
-                setDisplayedText(currentRole.slice(0, displayedText.length - 1))
-            }, 32)
-
-            return () => window.clearTimeout(timeout)
-        }
-
-        setPhase("typing")
-        setIndex((currentIndex) => (currentIndex + 1) % roles.length)
-    }, [displayedText, index, phase])
-
-    return (
-        <div className="flex min-h-8 items-center justify-center">
-            <div className="inline-flex min-w-[18ch] items-center justify-center text-center text-xl font-medium tracking-tight text-muted-foreground">
-                <span>{displayedText}</span>
-                <motion.span
-                    aria-hidden
-                    className="ml-1 inline-block h-[1.05em] w-px bg-current align-middle"
-                    animate={{ opacity: [1, 0, 1] }}
-                    transition={{ duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
-                />
-            </div>
-        </div>
-    )
-}
+import { LanternHeroCards } from "@/components/LanternCards"
+import { AvatarWithStatus } from "@/components/AvatarWithStatus"
+import { SpotifyCard } from "@/components/SpotifyCard"
+import { WakatimeCard } from "@/components/WakatimeCard"
+import { useLanternPresence } from "@/hooks/useLanternPresence"
+import { siteConfig } from "@/data/site"
 
 const storyPhrases = [
-    { text: "I build things.", sub: "full-stack, end to end" },
-    { text: "clean code,\ngreat design.", sub: "because every detail matters" },
-    { text: "let's work\ntogether.", sub: "open to new opportunities" },
+    { text: "I build things." },
+    { text: "clean code,\ngreat design." },
+    { text: "let's work\ntogether." },
 ]
 
 export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
+    const { presence } = useLanternPresence(siteConfig.lanternUserId)
+    const isLoaded = presence !== null
+
     const storyRef = useRef<HTMLDivElement>(null)
     const [activePhrase, setActivePhrase] = useState(0)
 
@@ -102,55 +43,61 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
 
     return (
         <div>
-            <section className="relative min-h-[calc(100svh-5rem)] flex flex-col items-center justify-center px-6 text-center">
+            <section className="relative min-h-[calc(100svh-5rem)] flex flex-col items-center justify-center px-6">
                 <GravityStarsBackground className="absolute inset-0" />
                 <div className="absolute inset-x-0 -top-20 bottom-0 bg-[radial-gradient(ellipse_70%_40%_at_50%_10%,oklch(0.5_0_0/0.06),transparent)] pointer-events-none" />
                 <div className="absolute bottom-0 left-0 right-0 h-56 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
 
-                <div className="relative z-10 space-y-8 max-w-5xl w-full flex flex-col items-center">
-                    <motion.h1
-                        className="text-[clamp(4.5rem,16vw,13rem)] font-black tracking-tighter leading-none"
-                        initial={{ opacity: 0, y: 40 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                        emirhan
-                    </motion.h1>
-
+                <div className="relative z-10 w-full max-w-xl">
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.8, duration: 0.6 }}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        className="mb-6"
                     >
-                        <RoleCycler />
+                        <AvatarWithStatus 
+                            imageClassName="h-20 w-20"
+                            statusClassName="bottom-0 right-1 h-4 w-4"
+                        />
                     </motion.div>
 
-                    <motion.div
-                        className="flex flex-wrap justify-center gap-2"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 1.1, duration: 0.6 }}
+                    <motion.h1
+                        className="text-4xl sm:text-5xl font-bold tracking-tight leading-[1.1]"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+                        transition={{ delay: 0.15, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     >
-                        {socialLinks.map((link) => (
-                            <Link
-                                key={link.name}
-                                href={link.href}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="flex items-center gap-2 rounded-lg border border-border bg-muted/20 px-4 py-2 text-sm font-medium text-muted-foreground transition-all hover:bg-muted/50 hover:text-foreground"
-                            >
-                                <link.icon className="h-4 w-4" />
-                                {link.name}
-                            </Link>
-                        ))}
+                        Hey, I&apos;m Emirhan.
+                        <br />
+                        Full-Stack Developer & Designer
+                    </motion.h1>
+
+                    <motion.p
+                        className="mt-5 text-base text-muted-foreground leading-relaxed"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+                        transition={{ delay: 0.3, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                        A web and mobile developer building things end to end. I love crafting
+                        polished interfaces, designing robust backends, and exploring new tools
+                        that make the web feel a little more alive.
+                    </motion.p>
+
+                    <motion.div
+                        className="mt-8"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+                        transition={{ delay: 0.45, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                        <LanternHeroCards />
                     </motion.div>
                 </div>
 
                 <motion.div
-                    className="absolute bottom-8 flex flex-col items-center gap-2"
+                    className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.7, duration: 0.6 }}
+                    animate={{ opacity: isLoaded ? 1 : 0 }}
+                    transition={{ delay: 1.2, duration: 0.6 }}
                 >
                     <motion.div
                         animate={{ y: [0, 8, 0] }}
@@ -161,29 +108,28 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                 </motion.div>
             </section>
 
+
             <section ref={storyRef} className="relative" style={{ height: "260vh" }}>
                 <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden px-8">
-                    <div className="relative w-full max-w-4xl text-center">
+                    <div className="relative z-20 w-full max-w-5xl text-center">
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={activePhrase}
-                                initial={{ opacity: 0, y: 40 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -40 }}
-                                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                                initial={{ opacity: 0, y: 60, filter: "blur(12px)" }}
+                                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                                exit={{ opacity: 0, y: -60, filter: "blur(12px)" }}
+                                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
                                 className="flex flex-col items-center justify-center"
                             >
-                                <p className="text-[clamp(2.8rem,7.5vw,6.5rem)] font-black tracking-tighter leading-[1.04] whitespace-pre-line">
+                                <p className="text-[clamp(3rem,8.5vw,7.5rem)] font-black tracking-tighter leading-[1.02] whitespace-pre-line text-foreground">
                                     {storyPhrases[activePhrase].text}
-                                </p>
-                                <p className="mt-5 text-base md:text-lg text-muted-foreground font-medium tracking-wide">
-                                    - {storyPhrases[activePhrase].sub}
                                 </p>
                             </motion.div>
                         </AnimatePresence>
                     </div>
                 </div>
             </section>
+
 
             <section className="w-full max-w-2xl mx-auto px-6 pb-28 space-y-24">
                 <motion.div
@@ -211,7 +157,7 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                     transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 >
                     <div className="flex items-end gap-3 justify-center">
-                        <span className="text-xs font-mono text-muted-foreground/40 mb-1">03</span>
+                        <span className="text-xs font-mono text-muted-foreground/40 mb-1">02</span>
                         <h2 className="text-4xl font-black tracking-tighter">Top Tracks</h2>
                     </div>
                     <TopTracksSection />
@@ -225,7 +171,7 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                     transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 >
                     <div className="flex items-end gap-3 justify-center">
-                        <span className="text-xs font-mono text-muted-foreground/40 mb-1">04</span>
+                        <span className="text-xs font-mono text-muted-foreground/40 mb-1">03</span>
                         <h2 className="text-4xl font-black tracking-tighter">Favorites</h2>
                     </div>
                     <FavoritesSection />
@@ -241,7 +187,7 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                     >
                         <div className="flex flex-col items-center gap-2">
                             <div className="flex items-end gap-3">
-                                <span className="text-xs font-mono text-muted-foreground/40 mb-1">05</span>
+                                <span className="text-xs font-mono text-muted-foreground/40 mb-1">04</span>
                                 <h2 className="text-4xl font-black tracking-tighter">Writing</h2>
                             </div>
                             <Link

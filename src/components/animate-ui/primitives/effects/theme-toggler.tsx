@@ -5,14 +5,14 @@ import { flushSync } from 'react-dom';
 
 type ThemeSelection = 'light' | 'dark' | 'system';
 type Resolved = 'light' | 'dark';
-type Direction = 'btt' | 'ttb' | 'ltr' | 'rtl';
+type Direction = 'btt' | 'ttb' | 'ltr' | 'rtl' | 'circle';
 
 type ChildrenRender =
   | React.ReactNode
   | ((state: {
       resolved: Resolved;
       effective: ThemeSelection;
-      toggleTheme: (theme: ThemeSelection) => void;
+      toggleTheme: (theme: ThemeSelection, e?: React.MouseEvent) => void;
     }) => React.ReactNode);
 
 function getSystemEffective(): Resolved {
@@ -80,7 +80,7 @@ function ThemeToggler({
   const [fromClip, toClip] = getClipKeyframes(direction);
 
   const toggleTheme = React.useCallback(
-    async (theme: ThemeSelection) => {
+    async (theme: ThemeSelection, e?: React.MouseEvent) => {
       const resolved = theme === 'system' ? getSystemEffective() : theme;
 
       setCurrent({ effective: theme, resolved });
@@ -109,11 +109,28 @@ function ThemeToggler({
         });
       }).ready;
 
+      let keyframes = { clipPath: [fromClip, toClip] };
+
+      if (direction === 'circle') {
+        const x = e?.clientX ?? window.innerWidth / 2;
+        const y = e?.clientY ?? window.innerHeight / 2;
+        const endRadius = Math.hypot(
+          Math.max(x, window.innerWidth - x),
+          Math.max(y, window.innerHeight - y)
+        );
+        keyframes = {
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${endRadius}px at ${x}px ${y}px)`,
+          ]
+        };
+      }
+
       document.documentElement
         .animate(
-          { clipPath: [fromClip, toClip] },
+          keyframes,
           {
-            duration: 700,
+            duration: direction === 'circle' ? 600 : 700,
             easing: 'ease-in-out',
             pseudoElement: '::view-transition-new(root)',
           },
@@ -122,7 +139,7 @@ function ThemeToggler({
           setTheme(theme);
         });
     },
-    [onImmediateChange, resolvedTheme, fromClip, toClip, setTheme],
+    [onImmediateChange, resolvedTheme, fromClip, toClip, setTheme, direction],
   );
 
   return (

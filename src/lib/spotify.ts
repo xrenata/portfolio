@@ -7,6 +7,7 @@ const basic = Buffer.from(`${client_id}:${client_secret}`).toString('base64')
 const NOW_PLAYING_ENDPOINT = `https://api.spotify.com/v1/me/player/currently-playing`
 const RECENTLY_PLAYED_ENDPOINT = `https://api.spotify.com/v1/me/player/recently-played?limit=1`
 const TOP_TRACKS_ENDPOINT = `https://api.spotify.com/v1/me/top/tracks?limit=5&time_range=short_term`
+const TOP_TRACKS_EXTENDED_ENDPOINT = `https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=long_term`
 const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`
 
 const getAccessToken = async () => {
@@ -61,6 +62,20 @@ export const getTopTracks = async () => {
     const { access_token } = await getAccessToken()
 
     return fetch(TOP_TRACKS_ENDPOINT, {
+        headers: {
+            Authorization: `Bearer ${access_token}`,
+        },
+    })
+}
+
+export const getTopTracksExtended = async () => {
+    if (!client_id || !client_secret || !refresh_token) {
+        return { error: "Missing Environment Variables" }
+    }
+
+    const { access_token } = await getAccessToken()
+
+    return fetch(TOP_TRACKS_EXTENDED_ENDPOINT, {
         headers: {
             Authorization: `Bearer ${access_token}`,
         },

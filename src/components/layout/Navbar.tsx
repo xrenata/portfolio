@@ -11,6 +11,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from 
 import { Menu, Moon, Sun } from "lucide-react"
 import { useState } from "react"
 import { ThemeToggler } from "@/components/animate-ui/primitives/effects/theme-toggler"
+import { AvatarWithStatus } from "@/components/AvatarWithStatus"
 
 export function Navbar() {
     const pathname = usePathname()
@@ -27,9 +28,10 @@ export function Navbar() {
             <div className="flex h-13 items-center gap-0.5 rounded-full border border-border bg-background/90 backdrop-blur-xl px-3 shadow-lg shadow-black/10">
 
                 <Link href="/" className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-muted/60 transition-colors mr-0.5">
-                    <div className="relative h-6 w-6 overflow-hidden rounded-full ring-1 ring-border/60">
-                        <Image src="/avatar.jpeg" alt="Emirhan" fill className="object-cover" priority />
-                    </div>
+                    <AvatarWithStatus 
+                        imageClassName="h-6 w-6" 
+                        showStatus={false}
+                    />
                 </Link>
 
                 <div className="h-4 w-px bg-border/50 mx-1" />
@@ -60,11 +62,11 @@ export function Navbar() {
                     theme={(theme as any) ?? 'system'}
                     resolvedTheme={(resolvedTheme as any) ?? 'light'}
                     setTheme={setTheme}
-                    direction="ttb"
+                    direction="circle"
                 >
                     {({ effective, toggleTheme }) => (
                         <button
-                            onClick={() => toggleTheme(effective === 'dark' ? 'light' : 'dark')}
+                            onClick={(e) => toggleTheme(effective === 'dark' ? 'light' : 'dark', e)}
                             className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
                             aria-label="Toggle theme"
                         >
@@ -89,9 +91,10 @@ export function Navbar() {
                             <SheetDescription className="sr-only">Main site navigation</SheetDescription>
 
                             <div className="flex items-center gap-3 px-2 pt-8 pb-6 border-b border-border/40">
-                                <div className="relative h-10 w-10 overflow-hidden rounded-full ring-1 ring-border/60">
-                                    <Image src="/avatar.jpeg" alt="Emirhan" fill className="object-cover" />
-                                </div>
+                                <AvatarWithStatus 
+                                    imageClassName="h-10 w-10" 
+                                    showStatus={false}
+                                />
                                 <div>
                                     <p className="font-bold leading-none">emirhan</p>
                                     <p className="text-xs text-muted-foreground mt-1">Full-Stack Developer</p>

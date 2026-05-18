@@ -13,6 +13,16 @@ const nextConfig: NextConfig = {
         hostname: 'static.tvmaze.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'media.discordapp.net',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.discordapp.com',
+        pathname: '/**',
+      }
     ],
   },
 };
