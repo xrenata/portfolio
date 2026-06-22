@@ -76,9 +76,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     </div>
 
                     <div className="space-y-5 pb-10 border-b border-border/40">
-                        <time dateTime={post.date} className="block font-mono text-xs text-muted-foreground/60">
-                            {post.date}
-                        </time>
+                        <div className="flex items-center gap-3 font-mono text-xs text-muted-foreground/60">
+                            <time dateTime={post.date}>
+                                {post.date}
+                            </time>
+                            <span>·</span>
+                            <span>{post.readingTime} min read</span>
+                        </div>
                         <h1 className="text-4xl font-black tracking-tighter leading-tight lg:text-5xl">
                             {post.title}
                         </h1>

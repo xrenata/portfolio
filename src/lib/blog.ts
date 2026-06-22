@@ -12,6 +12,12 @@ export type BlogPost = {
     description: string
     tags: string[]
     content: string
+    readingTime: number
+}
+
+function calculateReadingTime(content: string): number {
+    const words = content.trim().split(/\s+/).length
+    return Math.max(1, Math.round(words / 200))
 }
 
 export function getAllPosts(): BlogPost[] {
@@ -33,6 +39,7 @@ export function getAllPosts(): BlogPost[] {
             description: data.description,
             tags: data.tags || [],
             content,
+            readingTime: calculateReadingTime(content),
         }
     })
 
@@ -43,6 +50,13 @@ export function getAllPosts(): BlogPost[] {
             return -1
         }
     })
+}
+
+export function getAllTags(): string[] {
+    const posts = getAllPosts()
+    const tagSet = new Set<string>()
+    posts.forEach(post => post.tags.forEach(tag => tagSet.add(tag)))
+    return Array.from(tagSet).sort()
 }
 
 export function getPostBySlug(slug: string): BlogPost | null {
@@ -58,6 +72,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
             description: data.description,
             tags: data.tags || [],
             content,
+            readingTime: calculateReadingTime(content),
         }
     } catch (error) {
         return null
