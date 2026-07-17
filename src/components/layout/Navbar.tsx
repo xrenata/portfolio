@@ -8,12 +8,13 @@ import Image from "next/image"
 import { useTheme } from "next-themes"
 import { routes, socialLinks } from "@/data/site"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet"
-import { Menu, Moon, Sun } from "lucide-react"
+import { Menu, Moon, Sun, Search } from "lucide-react"
 import { useState } from "react"
 import { ThemeToggler } from "@/components/animate-ui/primitives/effects/theme-toggler"
 import { AvatarWithStatus } from "@/components/AvatarWithStatus"
+import { CommandMenu, type PostMeta } from "@/components/CommandMenu"
 
-export function Navbar() {
+export function Navbar({ posts = [] }: { posts?: PostMeta[] }) {
     const pathname = usePathname()
     const [open, setOpen] = useState(false)
     const { setTheme, resolvedTheme, theme } = useTheme()
@@ -57,6 +58,15 @@ export function Navbar() {
                 </nav>
 
                 <div className="hidden md:block h-4 w-px bg-border/50 mx-1" />
+
+                <button
+                    onClick={() => window.dispatchEvent(new Event("open-command-menu"))}
+                    className="flex h-8 items-center gap-1.5 rounded-full px-2.5 text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+                    aria-label="Open command menu"
+                >
+                    <Search className="h-3.5 w-3.5" />
+                    <kbd className="hidden lg:inline-block font-mono text-[10px] text-muted-foreground/60">⌘K</kbd>
+                </button>
 
                 <ThemeToggler
                     theme={(theme as any) ?? 'system'}
@@ -143,6 +153,8 @@ export function Navbar() {
                     </Sheet>
                 </div>
             </div>
+
+            <CommandMenu posts={posts} />
         </header>
     )
 }

@@ -6,6 +6,7 @@ export const siteConfig = {
     description: "Personal portfolio showcasing my projects and skills.",
     url: "https://emirhan.cv",
     lanternUserId: "937316083533230110",
+    githubUsername: "xrenata",
     links: {
         github: "https://github.com/xrenata",
         linkedin: "https://linkedin.com/in/xrenata",
@@ -21,6 +22,7 @@ export const routes = [
     { href: "/spotify", label: "Music" },
     { href: "/bookmarks", label: "Bookmarks" },
     { href: "/blog", label: "Blog" },
+    { href: "/uses", label: "Uses" },
     { href: "/about", label: "About" },
 ]
 

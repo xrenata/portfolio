@@ -1,21 +1,28 @@
 "use client"
 
 import { useRef, useState } from "react"
-import Image from "next/image"
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion"
 import Link from "next/link"
-import { ArrowDown, ArrowRight } from "lucide-react"
+import { ArrowRight, ArrowUpRight } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import type { BlogPost } from "@/lib/blog"
 import { TopTracksSection } from "@/components/TopTracksSection"
 import { FavoritesSection } from "@/components/FavoritesSection"
-import { GravityStarsBackground } from '@/components/animate-ui/components/backgrounds/gravity-stars'
+import { Particles } from "@/components/ui/particles"
+import { useTheme } from "next-themes"
 import { LanternHeroCards } from "@/components/LanternCards"
 import { AvatarWithStatus } from "@/components/AvatarWithStatus"
 import { SpotifyCard } from "@/components/SpotifyCard"
 import { WakatimeCard } from "@/components/WakatimeCard"
+import { GithubContributions } from "@/components/GithubContributions"
+import { RotatingRole } from "@/components/RotatingRole"
+import { FeaturedProjects } from "@/components/FeaturedProjects"
+import { ExperienceTimeline } from "@/components/ExperienceTimeline"
+import { ContactCTA } from "@/components/ContactCTA"
 import { useLanternPresence } from "@/hooks/useLanternPresence"
 import { siteConfig } from "@/data/site"
+import { projects } from "@/data/projects"
 
 const storyPhrases = [
     { text: "I build things." },
@@ -23,9 +30,37 @@ const storyPhrases = [
     { text: "let's work\ntogether." },
 ]
 
+const stats = [
+    { value: `${projects.length}+`, label: "Projects" },
+    { value: "9+", label: "Years coding" },
+    { value: "∞", label: "Cups of coffee" },
+]
+
+const sectionMotion = {
+    initial: { opacity: 0, y: 40 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: "-80px" },
+    transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as const },
+}
+
+function SectionHeading({ num, title, action }: { num: string; title: string; action?: React.ReactNode }) {
+    return (
+        <div className="flex flex-col items-center gap-2">
+            <div className="flex items-end gap-3">
+                <span className="text-xs font-mono text-muted-foreground/40 mb-1">{num}</span>
+                <h2 className="text-4xl font-black tracking-tighter">{title}</h2>
+            </div>
+            {action}
+        </div>
+    )
+}
+
 export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
     const { presence } = useLanternPresence(siteConfig.lanternUserId)
     const isLoaded = presence !== null
+
+    const { resolvedTheme } = useTheme()
+    const particleColor = resolvedTheme === "light" ? "#111111" : "#ffffff"
 
     const storyRef = useRef<HTMLDivElement>(null)
     const [activePhrase, setActivePhrase] = useState(0)
@@ -43,9 +78,15 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
 
     return (
         <div>
-            <section className="relative min-h-[calc(100svh-5rem)] flex flex-col items-center justify-center px-6">
-                <GravityStarsBackground className="absolute inset-0" />
-                <div className="absolute inset-x-0 -top-20 bottom-0 bg-[radial-gradient(ellipse_70%_40%_at_50%_10%,oklch(0.5_0_0/0.06),transparent)] pointer-events-none" />
+            <section className="relative -mt-20 min-h-svh flex flex-col items-center justify-center overflow-hidden px-6">
+                <Particles
+                    color={particleColor}
+                    particleCount={14000}
+                    particleSize={6}
+                    animate={false}
+                    className="z-0"
+                />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_60%_at_50%_45%,var(--background)_35%,transparent_80%)] pointer-events-none z-[1]" />
                 <div className="absolute bottom-0 left-0 right-0 h-56 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
 
                 <div className="relative z-10 w-full max-w-xl">
@@ -55,7 +96,7 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                         className="mb-6"
                     >
-                        <AvatarWithStatus 
+                        <AvatarWithStatus
                             imageClassName="h-20 w-20"
                             statusClassName="bottom-0 right-1 h-4 w-4"
                         />
@@ -69,7 +110,7 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                     >
                         Hey, I&apos;m Emirhan.
                         <br />
-                        Full-Stack Developer & Designer
+                        <RotatingRole />
                     </motion.h1>
 
                     <motion.p
@@ -84,30 +125,66 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                     </motion.p>
 
                     <motion.div
+                        className="mt-7 flex flex-wrap items-center gap-3"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+                        transition={{ delay: 0.4, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                        <Button asChild size="lg" className="rounded-full">
+                            <Link href="/projects">
+                                View my work
+                                <ArrowRight className="h-4 w-4" />
+                            </Link>
+                        </Button>
+                        <Button asChild variant="outline" size="lg" className="rounded-full">
+                            <a href={siteConfig.links.email}>Get in touch</a>
+                        </Button>
+                    </motion.div>
+
+                    <motion.div
+                        className="mt-8 flex items-center gap-8"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
+                        transition={{ delay: 0.5, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                        {stats.map((s) => (
+                            <div key={s.label}>
+                                <div className="text-2xl font-black tracking-tighter">{s.value}</div>
+                                <div className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground/50">
+                                    {s.label}
+                                </div>
+                            </div>
+                        ))}
+                    </motion.div>
+
+                    <motion.div
                         className="mt-8"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
-                        transition={{ delay: 0.45, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        transition={{ delay: 0.6, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     >
                         <LanternHeroCards />
                     </motion.div>
                 </div>
 
                 <motion.div
-                    className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+                    className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2 flex flex-col items-center gap-2.5"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: isLoaded ? 1 : 0 }}
                     transition={{ delay: 1.2, duration: 0.6 }}
                 >
-                    <motion.div
-                        animate={{ y: [0, 8, 0] }}
-                        transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-                    >
-                        <ArrowDown className="h-5 w-5 text-muted-foreground/40" />
-                    </motion.div>
+                    <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground/40">
+                        Scroll
+                    </span>
+                    <div className="flex h-8 w-5 justify-center rounded-full border border-muted-foreground/30 pt-1.5">
+                        <motion.div
+                            className="h-1.5 w-1 rounded-full bg-muted-foreground/60"
+                            animate={{ y: [0, 8, 0], opacity: [1, 0.2, 1] }}
+                            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+                        />
+                    </div>
                 </motion.div>
             </section>
-
 
             <section ref={storyRef} className="relative" style={{ height: "260vh" }}>
                 <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden px-8">
@@ -132,72 +209,74 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
 
 
             <section className="w-full max-w-2xl mx-auto px-6 pb-28 space-y-24">
-                <motion.div
-                    className="space-y-6"
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-80px" }}
-                    transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                >
-                    <div className="flex items-end gap-3 justify-center">
-                        <span className="text-xs font-mono text-muted-foreground/40 mb-1">01</span>
-                        <h2 className="text-4xl font-black tracking-tighter">Live Activity</h2>
-                    </div>
+                <motion.div className="space-y-6" {...sectionMotion}>
+                    <SectionHeading
+                        num="01"
+                        title="Selected Work"
+                        action={
+                            <Link
+                                href="/projects"
+                                className="group flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                            >
+                                All projects
+                                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                            </Link>
+                        }
+                    />
+                    <FeaturedProjects />
+                </motion.div>
+
+                <motion.div className="space-y-6" {...sectionMotion}>
+                    <SectionHeading
+                        num="02"
+                        title="Experience"
+                        action={
+                            <Link
+                                href="/about"
+                                className="group flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                            >
+                                More about me
+                                <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                            </Link>
+                        }
+                    />
+                    <ExperienceTimeline />
+                </motion.div>
+
+                <motion.div className="space-y-6" {...sectionMotion}>
+                    <SectionHeading num="03" title="Live Activity" />
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <SpotifyCard />
                         <WakatimeCard />
                     </div>
+                    <GithubContributions />
                 </motion.div>
 
-                <motion.div
-                    className="space-y-6"
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-80px" }}
-                    transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                >
-                    <div className="flex items-end gap-3 justify-center">
-                        <span className="text-xs font-mono text-muted-foreground/40 mb-1">02</span>
-                        <h2 className="text-4xl font-black tracking-tighter">Top Tracks</h2>
-                    </div>
+                <motion.div className="space-y-6" {...sectionMotion}>
+                    <SectionHeading num="04" title="Top Tracks" />
                     <TopTracksSection />
                 </motion.div>
 
-                <motion.div
-                    className="space-y-6"
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-80px" }}
-                    transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                >
-                    <div className="flex items-end gap-3 justify-center">
-                        <span className="text-xs font-mono text-muted-foreground/40 mb-1">03</span>
-                        <h2 className="text-4xl font-black tracking-tighter">Favorites</h2>
-                    </div>
+                <motion.div className="space-y-6" {...sectionMotion}>
+                    <SectionHeading num="05" title="Favorites" />
                     <FavoritesSection />
                 </motion.div>
 
                 {latestPosts.length > 0 && (
-                    <motion.div
-                        className="space-y-6"
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-80px" }}
-                        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                        <div className="flex flex-col items-center gap-2">
-                            <div className="flex items-end gap-3">
-                                <span className="text-xs font-mono text-muted-foreground/40 mb-1">04</span>
-                                <h2 className="text-4xl font-black tracking-tighter">Writing</h2>
-                            </div>
-                            <Link
-                                href="/blog"
-                                className="group flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                            >
-                                All posts
-                                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-                            </Link>
-                        </div>
+                    <motion.div className="space-y-6" {...sectionMotion}>
+                        <SectionHeading
+                            num="06"
+                            title="Writing"
+                            action={
+                                <Link
+                                    href="/blog"
+                                    className="group flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                                >
+                                    All posts
+                                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                                </Link>
+                            }
+                        />
 
                         <div>
                             {latestPosts.map(post => (
@@ -230,6 +309,8 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                     </motion.div>
                 )}
             </section>
+
+            <ContactCTA />
         </div>
     )
 }

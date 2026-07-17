@@ -5,6 +5,7 @@ import { MarkdownComponents } from "@/components/markdown/markdown-components"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { ViewCounter } from "@/components/ViewCounter"
 
 interface BlogPostPageProps {
     params: Promise<{ slug: string }>
@@ -21,6 +22,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     const allPosts = getAllPosts()
 
     if (!post) notFound()
+
+    const otherPosts = allPosts.filter((p) => p.slug !== post.slug)
+    const relatedPosts = (() => {
+        const scored = otherPosts
+            .map((p) => ({
+                post: p,
+                shared: p.tags.filter((t) => post.tags.includes(t)).length,
+            }))
+            .filter((s) => s.shared > 0)
+            .sort((a, b) => b.shared - a.shared || (a.post.date < b.post.date ? 1 : -1))
+            .map((s) => s.post)
+        return (scored.length > 0 ? scored : otherPosts).slice(0, 3)
+    })()
 
     const toc = post.content.match(/^#{2,3}\s+(.*)$/gm)?.map(heading => {
         const level = heading.startsWith("###") ? 3 : 2
@@ -82,6 +96,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                             </time>
                             <span>·</span>
                             <span>{post.readingTime} min read</span>
+                            <span>·</span>
+                            <ViewCounter slug={post.slug} />
                         </div>
                         <h1 className="text-4xl font-black tracking-tighter leading-tight lg:text-5xl">
                             {post.title}
@@ -107,23 +123,20 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
                 <aside className="hidden lg:block lg:col-span-3">
                     <div className="sticky top-24 space-y-8">
-                        {allPosts.filter(p => p.slug !== post.slug).length > 0 && (
+                        {relatedPosts.length > 0 && (
                             <div className="space-y-4">
                                 <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground/50">
-                                    More posts
+                                    Related posts
                                 </p>
                                 <div className="flex flex-col gap-4">
-                                    {allPosts
-                                        .filter(p => p.slug !== post.slug)
-                                        .slice(0, 3)
-                                        .map(p => (
-                                            <Link key={p.slug} href={`/blog/${p.slug}`} className="group space-y-1 block">
-                                                <h5 className="text-sm font-medium leading-snug line-clamp-2 group-hover:underline underline-offset-4 decoration-border transition-colors">
-                                                    {p.title}
-                                                </h5>
-                                                <p className="font-mono text-[10px] text-muted-foreground/50">{p.date}</p>
-                                            </Link>
-                                        ))}
+                                    {relatedPosts.map(p => (
+                                        <Link key={p.slug} href={`/blog/${p.slug}`} className="group space-y-1 block">
+                                            <h5 className="text-sm font-medium leading-snug line-clamp-2 group-hover:underline underline-offset-4 decoration-border transition-colors">
+                                                {p.title}
+                                            </h5>
+                                            <p className="font-mono text-[10px] text-muted-foreground/50">{p.date}</p>
+                                        </Link>
+                                    ))}
                                 </div>
                             </div>
                         )}

@@ -54,13 +54,5 @@ export const WORK_EXPERIENCE: Experience[] = [
         period: "2017 - Present",
         description: "Building scalable, accessible, and performant applications.",
         tags: ["Node.js","Fastify","Socket.io"]
-    },
-    {
-        company: "Eupholias Developers",
-        role: "Tech Lead",
-        period: "2025 - 2026",
-        description: "Leading the frontend team in rebuilding the core product dashboard using Next.js and React Query.",
-        tags: ["React", "TypeScript", "GraphQL", "Elysia", "Prisma", "PostgreSQL", "Redis", "MongoDB"],
-        link: "https://eupholias.com"
     }
 ]
