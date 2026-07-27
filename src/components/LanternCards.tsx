@@ -129,7 +129,7 @@ function DiscordLanternCard({ presence }: { presence: LanternPresence | null }) 
             href={discordProfileUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-14 items-center gap-3 rounded-2xl border border-border bg-card/60 px-4 backdrop-blur-sm transition-colors hover:border-border/80 group"
+            className="flex h-14 min-w-0 items-center gap-2.5 sm:gap-3 rounded-2xl border border-border bg-card/60 px-3 sm:px-4 backdrop-blur-sm transition-colors hover:border-border/80 group"
         >
             <div className="relative shrink-0">
                 <DiscordIcon className="h-5 w-5 text-[#5865F2]" />
@@ -147,7 +147,7 @@ function TelegramLanternCard() {
             href="https://t.me/xrenatam"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-14 items-center gap-3 rounded-2xl border border-border bg-card/60 px-4 backdrop-blur-sm transition-colors hover:border-border/80 group"
+            className="flex h-14 min-w-0 items-center gap-2.5 sm:gap-3 rounded-2xl border border-border bg-card/60 px-3 sm:px-4 backdrop-blur-sm transition-colors hover:border-border/80 group"
         >
             <div className="relative shrink-0">
                 <TelegramIcon className="h-5 w-5 text-[#2AABEE]" />

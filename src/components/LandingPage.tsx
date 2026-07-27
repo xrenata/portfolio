@@ -78,7 +78,7 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
 
     return (
         <div>
-            <section className="relative -mt-20 min-h-svh flex flex-col items-center justify-center overflow-hidden px-6">
+            <section className="relative -mt-20 min-h-svh flex flex-col items-center justify-center overflow-hidden px-5 sm:px-6 pt-24 pb-28 sm:pt-28 sm:pb-24">
                 <Particles
                     color={particleColor}
                     particleCount={14000}
@@ -94,16 +94,16 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
                         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                        className="mb-6"
+                        className="mb-5 sm:mb-6"
                     >
                         <AvatarWithStatus
-                            imageClassName="h-20 w-20"
-                            statusClassName="bottom-0 right-1 h-4 w-4"
+                            imageClassName="h-16 w-16 sm:h-20 sm:w-20"
+                            statusClassName="bottom-0 right-0.5 h-3.5 w-3.5 sm:right-1 sm:h-4 sm:w-4"
                         />
                     </motion.div>
 
                     <motion.h1
-                        className="text-4xl sm:text-5xl font-bold tracking-tight leading-[1.1]"
+                        className="text-[clamp(1.75rem,8.2vw,3rem)] font-bold tracking-tight leading-[1.1]"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
                         transition={{ delay: 0.15, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -114,7 +114,7 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                     </motion.h1>
 
                     <motion.p
-                        className="mt-5 text-base text-muted-foreground leading-relaxed"
+                        className="mt-4 sm:mt-5 text-sm sm:text-base text-muted-foreground leading-relaxed text-pretty"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
                         transition={{ delay: 0.3, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -125,32 +125,32 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                     </motion.p>
 
                     <motion.div
-                        className="mt-7 flex flex-wrap items-center gap-3"
+                        className="mt-6 sm:mt-7 flex flex-wrap items-center gap-2.5 sm:gap-3"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
                         transition={{ delay: 0.4, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     >
-                        <Button asChild size="lg" className="rounded-full">
+                        <Button asChild size="lg" className="rounded-full flex-1 sm:flex-none min-w-[9.5rem]">
                             <Link href="/projects">
                                 View my work
                                 <ArrowRight className="h-4 w-4" />
                             </Link>
                         </Button>
-                        <Button asChild variant="outline" size="lg" className="rounded-full">
+                        <Button asChild variant="outline" size="lg" className="rounded-full flex-1 sm:flex-none min-w-[9.5rem]">
                             <a href={siteConfig.links.email}>Get in touch</a>
                         </Button>
                     </motion.div>
 
                     <motion.div
-                        className="mt-8 flex items-center gap-8"
+                        className="mt-7 sm:mt-8 flex items-center justify-between gap-4 sm:justify-start sm:gap-8"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
                         transition={{ delay: 0.5, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     >
                         {stats.map((s) => (
-                            <div key={s.label}>
-                                <div className="text-2xl font-black tracking-tighter">{s.value}</div>
-                                <div className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground/50">
+                            <div key={s.label} className="min-w-0">
+                                <div className="text-xl sm:text-2xl font-black tracking-tighter">{s.value}</div>
+                                <div className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wide sm:tracking-wider text-muted-foreground/50 whitespace-nowrap">
                                     {s.label}
                                 </div>
                             </div>
@@ -158,7 +158,7 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                     </motion.div>
 
                     <motion.div
-                        className="mt-8"
+                        className="mt-7 sm:mt-8"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
                         transition={{ delay: 0.6, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -168,7 +168,7 @@ export function LandingPage({ latestPosts }: { latestPosts: BlogPost[] }) {
                 </div>
 
                 <motion.div
-                    className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2 flex flex-col items-center gap-2.5"
+                    className="absolute bottom-6 sm:bottom-8 left-1/2 z-20 -translate-x-1/2 flex flex-col items-center gap-2.5"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: isLoaded ? 1 : 0 }}
                     transition={{ delay: 1.2, duration: 0.6 }}

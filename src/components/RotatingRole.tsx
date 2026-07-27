@@ -21,7 +21,7 @@ export function RotatingRole() {
     }, [])
 
     return (
-        <span className="relative inline-flex h-[1.3em] items-center overflow-hidden align-bottom -mb-[0.15em] leading-none">
+        <span className="relative inline-flex h-[1.3em] max-w-full items-center overflow-hidden align-bottom -mb-[0.15em] leading-none">
             <AnimatePresence mode="wait">
                 <motion.span
                     key={index}
